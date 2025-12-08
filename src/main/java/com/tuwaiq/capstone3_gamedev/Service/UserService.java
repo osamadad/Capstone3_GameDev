@@ -1,7 +1,9 @@
 package com.tuwaiq.capstone3_gamedev.Service;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
+import com.tuwaiq.capstone3_gamedev.Model.Skill;
 import com.tuwaiq.capstone3_gamedev.Model.User;
+import com.tuwaiq.capstone3_gamedev.Repository.SkillRepository;
 import com.tuwaiq.capstone3_gamedev.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final SkillRepository skillRepository;
 
     public void addUser(User user){
         user.setCreated_at(LocalDateTime.now());
@@ -38,6 +41,19 @@ public class UserService {
         oldUser.setYearOfExperience(user.getYearOfExperience());
         oldUser.setPortfolioURL(user.getPortfolioURL());
         userRepository.save(oldUser);
+    }
+
+    public void assignSkill(Integer userId, Integer skillId){
+        User user=userRepository.findUserById(userId);
+        if (user==null){
+            throw new ApiException("User not found");
+        }
+        Skill skill=skillRepository.findSkillById(skillId);
+        if (skill==null){
+            throw new ApiException("Skill not found");
+        }
+        user.getSkills().add(skill);
+        userRepository.save(user);
     }
 
     public void deleteUser(Integer id){

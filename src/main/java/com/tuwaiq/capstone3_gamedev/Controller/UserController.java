@@ -36,4 +36,10 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.status(200).body(new ApiResponse("User deleted successfully"));
     }
+
+    @PutMapping("/assign-skill/{userId}/{skillId}")
+    public ResponseEntity<?> assignSkill(@PathVariable Integer userId, @PathVariable Integer skillId){
+        userService.assignSkill(userId,skillId);
+        return ResponseEntity.status(200).body(new ApiResponse("Skill assign to user successfully"));
+    }
 }
