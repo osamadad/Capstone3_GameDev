@@ -69,6 +69,7 @@ public class PostService {
 
         oldPost.setTitle(post.getTitle());
         oldPost.setDescription(post.getDescription());
+        oldPost.setType(post.getType());
         oldPost.setMedia_url(post.getMedia_url());
 
         postRepository.save(oldPost);
