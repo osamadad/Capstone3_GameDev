@@ -37,4 +37,9 @@ public class StudioController {
         studioService.delete(studioMemberId, id);
         return ResponseEntity.status(200).body(new ApiResponse("studio deleted"));
     }
+    @GetMapping("get-most-project")
+    public ResponseEntity<?> getByMostProjects() {
+        return ResponseEntity.status(200).body(studioService.getStudiosByMostProjects());
+    }
+
 }

@@ -43,20 +43,20 @@ public class Project {
     @NotNull(message = "Budget estimation cannot be null")
     @PositiveOrZero(message = "Budget estimation must be positive or zero")
     @Column(columnDefinition = "double not null")
-    private Double budget_estimation;
+    private Double budgetEstimation;
 
     @NotNull(message = "Earning estimation cannot be null")
     @PositiveOrZero(message = "Earning estimation must be positive or zero")
     @Column(columnDefinition = "double not null")
-    private Double earning_estimation;
+    private Double earningEstimation;
 
     @NotNull(message = "Start date cannot be null")
     @Column(columnDefinition = "datetime not null")
-    private LocalDateTime start_date;
+    private LocalDateTime startDate;
 
     @NotNull(message = "End date cannot be null")
     @Column(columnDefinition = "datetime not null")
-    private LocalDateTime end_date;
+    private LocalDateTime endDate;
 
     @NotEmpty(message = "Status cannot be empty")
     @Column(columnDefinition = "varchar(20) not null")
@@ -65,7 +65,7 @@ public class Project {
 
     @NotNull(message = "Created at cannot be null")
     @Column(columnDefinition = "datetime not null")
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JsonIgnore

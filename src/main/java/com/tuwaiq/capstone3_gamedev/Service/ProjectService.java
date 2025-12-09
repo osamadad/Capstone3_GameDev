@@ -40,11 +40,11 @@ public class ProjectService {
             throw new ApiException("Member does not belong to any studio");
         }
 
-        if (project.getStart_date().isAfter(project.getEnd_date())) {
+        if (project.getStartDate().isAfter(project.getEndDate())) {
             throw new ApiException("Start date cannot be after end date");
         }
 
-        project.setCreated_at(LocalDateTime.now());
+        project.setCreatedAt(LocalDateTime.now());
         project.setStudio(studio);
         projectRepository.save(project);
     }
@@ -65,7 +65,7 @@ public class ProjectService {
         }
 
         Project oldProject = projectRepository.findProjectById(projectId);
-        if (oldProject == null){
+        if (oldProject == null) {
             throw new ApiException("Project not found");
         }
 
@@ -74,20 +74,19 @@ public class ProjectService {
             throw new ApiException("Project does not belong to your studio");
         }
 
-        if (project.getStart_date().isAfter(project.getEnd_date())) {
+        if (project.getStartDate().isAfter(project.getEndDate())) {
             throw new ApiException("Start date cannot be after end date");
         }
 
         oldProject.setName(project.getName());
         oldProject.setScope(project.getScope());
         oldProject.setDescription(project.getDescription());
-        oldProject.setBudget_estimation(project.getBudget_estimation());
-        oldProject.setEarning_estimation(project.getEarning_estimation());
-        oldProject.setStart_date(project.getStart_date());
-        oldProject.setEnd_date(project.getEnd_date());
+        oldProject.setBudgetEstimation(project.getBudgetEstimation());
+        oldProject.setEarningEstimation(project.getEarningEstimation());
+        oldProject.setStartDate(project.getStartDate());
+        oldProject.setEndDate(project.getEndDate());
         oldProject.setStatus(project.getStatus());
         oldProject.setEngine(project.getEngine());
-
         projectRepository.save(oldProject);
     }
 
@@ -107,7 +106,7 @@ public class ProjectService {
         }
 
         Project project = projectRepository.findProjectById(projectId);
-        if (project == null){
+        if (project == null) {
             throw new ApiException("Project not found");
         }
 
@@ -118,11 +117,11 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
-    public void assignProjectToGenre(Integer projectId, Integer genreId){
-        Project project=projectRepository.findProjectById(projectId);
-        Genre genre=genreRepository.findGenreById(genreId);
+    public void assignProjectToGenre(Integer projectId, Integer genreId) {
+        Project project = projectRepository.findProjectById(projectId);
+        Genre genre = genreRepository.findGenreById(genreId);
 
-        if (genre==null||project==null){
+        if (genre == null || project == null) {
             throw new ApiException("Project or genre not found");
         }
 
@@ -132,11 +131,11 @@ public class ProjectService {
         genreRepository.save(genre);
     }
 
-    public void assignProjectToPlatform(Integer projectId, Integer platformId){
-        Project project=projectRepository.findProjectById(projectId);
-        Platform platform =platformRepository.findPlatformById(platformId);
+    public void assignProjectToPlatform(Integer projectId, Integer platformId) {
+        Project project = projectRepository.findProjectById(projectId);
+        Platform platform = platformRepository.findPlatformById(platformId);
 
-        if (platform==null||project==null){
+        if (platform == null || project == null) {
             throw new ApiException("Project or platform not found");
         }
 
@@ -144,6 +143,35 @@ public class ProjectService {
         platform.getProjects().add(project);
         projectRepository.save(project);
         platformRepository.save(platform);
+    }
+
+    public List<Project> findProjectsByEarningEstimationGreaterThan(Double earningEstimation) {
+        return projectRepository.findProjectsByEarningEstimationGreaterThan(earningEstimation);
+    }
+
+    public List<Project> findProjectsByBudgetEstimationGreaterThan(Double budgetEstimation) {
+        return projectRepository.findProjectsByBudgetEstimationGreaterThan(budgetEstimation);
+    }
+    public List<Project> findProjectsByStudio_Id(Integer studioId) {
+        return projectRepository.findProjectsByStudio_Id(studioId);
+    }
+
+    public List<Project> findProjectsByScope(String scope) {
+        if (!scope.matches("^(game_jam|small|medium|big|AAA)$")) {
+            throw new ApiException("Invalid scope value");
+        }
+        return projectRepository.findProjectsByScope(scope);
+    }
+    
+    public List<Project> findProjectsByStatus(String status) {
+        if (!status.matches("^(inProgress|finished)$")) {
+            throw new ApiException("Invalid status value");
+        }
+        return projectRepository.findProjectsByStatus(status);
+    }
+
+    public List<Project> getThisYearProjects(){
+        return projectRepository.findThisYearProjects();
     }
 
 }
