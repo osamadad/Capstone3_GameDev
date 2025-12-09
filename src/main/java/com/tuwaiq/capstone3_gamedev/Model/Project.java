@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Project {
     private String name;
 
     @NotEmpty(message = "Scope cannot be empty")
+    @Pattern(regexp = "^(game_jam|small|medium|big|AAA)$", message = "scope must be game_jam,small,medium,big or AAA")
     @Column(columnDefinition = "varchar(50) not null")
     private String scope;
 
@@ -59,6 +61,7 @@ public class Project {
 
     @NotEmpty(message = "Status cannot be empty")
     @Column(columnDefinition = "varchar(20) not null")
+    @Pattern(regexp = "^(inProgress|finished)$",message = "status must be inProgress or finished")
     private String status;
 
     @NotNull(message = "Created at cannot be null")
