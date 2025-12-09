@@ -2,10 +2,7 @@ package com.tuwaiq.capstone3_gamedev.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,9 +35,10 @@ public class Project {
     @Column(columnDefinition = "varchar(255) not null")
     private String description;
 
-    @NotEmpty(message = "Genre cannot be empty")
-    @Column(columnDefinition = "varchar(255) not null")
-    private String genre;
+    @NotEmpty(message = "Engine cannot be empty")
+    @Size(max = 35, message = "Sorry, the engine can't be more than 35 characters, please try again")
+    @Column(columnDefinition = "varchar(35) not null")
+    private String engine;
 
     @NotNull(message = "Budget estimation cannot be null")
     @PositiveOrZero(message = "Budget estimation must be positive or zero")
@@ -78,4 +76,9 @@ public class Project {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<InvestingRequest> investingRequests;
+
+    @ManyToMany(mappedBy = "projects")
+    private Set<Platform> platforms;
+    @ManyToMany(mappedBy = "projects")
+    private Set<Genre> genres;
 }

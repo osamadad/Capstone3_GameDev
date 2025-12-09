@@ -1,9 +1,9 @@
 package com.tuwaiq.capstone3_gamedev.Service;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
-import com.tuwaiq.capstone3_gamedev.Model.Project;
-import com.tuwaiq.capstone3_gamedev.Model.Studio;
-import com.tuwaiq.capstone3_gamedev.Model.StudioMember;
+import com.tuwaiq.capstone3_gamedev.Model.*;
+import com.tuwaiq.capstone3_gamedev.Repository.GenreRepository;
+import com.tuwaiq.capstone3_gamedev.Repository.PlatformRepository;
 import com.tuwaiq.capstone3_gamedev.Repository.ProjectRepository;
 import com.tuwaiq.capstone3_gamedev.Repository.StudioMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,8 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final StudioMemberRepository studioMemberRepository;
+    private final GenreRepository genreRepository;
+    private final PlatformRepository platformRepository;
 
     public List<Project> get() {
         return projectRepository.findAll();
@@ -84,7 +86,7 @@ public class ProjectService {
         oldProject.setStart_date(project.getStart_date());
         oldProject.setEnd_date(project.getEnd_date());
         oldProject.setStatus(project.getStatus());
-        oldProject.setGenre(project.getGenre());
+        oldProject.setEngine(project.getEngine());
 
         projectRepository.save(oldProject);
     }
@@ -114,6 +116,34 @@ public class ProjectService {
         }
 
         projectRepository.delete(project);
+    }
+
+    public void assignProjectToGenre(Integer projectId, Integer genreId){
+        Project project=projectRepository.findProjectById(projectId);
+        Genre genre=genreRepository.findGenreById(genreId);
+
+        if (genre==null||project==null){
+            throw new ApiException("Project or genre not found");
+        }
+
+        project.getGenres().add(genre);
+        genre.getProjects().add(project);
+        projectRepository.save(project);
+        genreRepository.save(genre);
+    }
+
+    public void assignProjectToPlatform(Integer projectId, Integer platformId){
+        Project project=projectRepository.findProjectById(projectId);
+        Platform platform =platformRepository.findPlatformById(platformId);
+
+        if (platform==null||project==null){
+            throw new ApiException("Project or platform not found");
+        }
+
+        project.getPlatforms().add(platform);
+        platform.getProjects().add(project);
+        projectRepository.save(project);
+        platformRepository.save(platform);
     }
 
 }
