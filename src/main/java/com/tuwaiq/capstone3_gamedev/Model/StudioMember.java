@@ -36,9 +36,8 @@ public class StudioMember {
     @Column(columnDefinition = "datetime not null")
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @OneToOne
     @JsonIgnore
-    @NotNull(message = "user cannot be null")
     private User user;
 
     @ManyToOne
