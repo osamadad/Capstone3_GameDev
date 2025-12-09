@@ -81,4 +81,7 @@ public class Project {
     private Set<Platform> platforms;
     @ManyToMany(mappedBy = "projects")
     private Set<Genre> genres;
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    private Set<ProjectMember> projectMembers;
 }

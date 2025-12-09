@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,8 +33,6 @@ public class StudioMember {
     @Column(columnDefinition = "varchar(20) not null")
     private String role;
 
-    @NotNull(message = "createdAt cannot be null")
-    @Column(columnDefinition = "datetime not null")
     private LocalDateTime createdAt;
 
     @OneToOne
@@ -44,4 +43,7 @@ public class StudioMember {
     @JsonIgnore
     @NotNull(message = "studio cannot be null")
     private Studio studio;
+
+    @OneToMany(mappedBy = "studioMember")
+    private Set<ProjectMember> projectMembers;
 }
