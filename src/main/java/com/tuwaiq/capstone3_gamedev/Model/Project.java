@@ -35,6 +35,10 @@ public class Project {
     @Column(columnDefinition = "varchar(255) not null")
     private String description;
 
+    @NotEmpty(message = "Genre cannot be empty")
+    @Column(columnDefinition = "varchar(255) not null")
+    private String genre;
+
     @NotNull(message = "Budget estimation cannot be null")
     @PositiveOrZero(message = "Budget estimation must be positive or zero")
     @Column(columnDefinition = "double not null")

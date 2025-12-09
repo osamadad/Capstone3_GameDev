@@ -84,6 +84,7 @@ public class ProjectService {
         oldProject.setStart_date(project.getStart_date());
         oldProject.setEnd_date(project.getEnd_date());
         oldProject.setStatus(project.getStatus());
+        oldProject.setGenre(project.getGenre());
 
         projectRepository.save(oldProject);
     }
