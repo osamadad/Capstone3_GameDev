@@ -27,7 +27,6 @@ public class StudioMemberService {
         if (old == null) throw new ApiException("Studio member not found");
 
         old.setName(studioMember.getName());
-        old.setDescription(studioMember.getDescription());
         old.setRole(studioMember.getRole());
         old.setCreatedAt(studioMember.getCreatedAt());
         old.setUser(studioMember.getUser());
