@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,11 @@ public class Post {
     @NotEmpty(message = "Description cannot be empty")
     @Column(columnDefinition = "varchar(255) not null")
     private String description;
+    @NotEmpty(message = "Sorry, the post type can't be empty, please try again")
+    @Size(max = 20, message = "Sorry, the post type can't be more than 20 characters, please try again")
+    @Pattern(regexp = "hiring|announcement|showcase|investor pitch" , message = "Sorry, the post type must be 'hiring', 'announcement', 'showcase', or 'investor pitch', please try again")
+    @Column(columnDefinition = "varchar(20) not null")
+    private String type;
 
     @Column(columnDefinition = "varchar(255)")
     private String media_url;
