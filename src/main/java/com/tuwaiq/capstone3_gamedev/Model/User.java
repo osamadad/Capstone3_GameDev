@@ -62,6 +62,5 @@ public class User {
     @ManyToMany(mappedBy = "user")
     private Set<UserRequest> userRequests;
     @OneToOne
-    @JsonIgnore
     private StudioMember studioMember;
 }

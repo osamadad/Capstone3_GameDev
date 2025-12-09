@@ -37,6 +37,7 @@ public class StudioMember {
     private LocalDateTime createdAt;
 
     @ManyToOne
+    @JsonIgnore
     @NotNull(message = "user cannot be null")
     private User user;
 
