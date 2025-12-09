@@ -34,7 +34,6 @@ public class InvestorService {
         old.setEmail(investor.getEmail());
         old.setPassword(investor.getPassword());
         old.setAvailableBudget(investor.getAvailableBudget());
-        old.setFundedProjects(investor.getFundedProjects());
 
         investorRepository.save(old);
     }

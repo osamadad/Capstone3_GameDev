@@ -2,6 +2,7 @@ package com.tuwaiq.capstone3_gamedev.Service;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
 import com.tuwaiq.capstone3_gamedev.Model.InvestingRequest;
+import com.tuwaiq.capstone3_gamedev.Model.Project;
 import com.tuwaiq.capstone3_gamedev.Repository.InvestingRequestRepository;
 import com.tuwaiq.capstone3_gamedev.Repository.InvestorRepository;
 import com.tuwaiq.capstone3_gamedev.Repository.ProjectRepository;
@@ -34,6 +35,12 @@ public class InvestingRequestService {
         Integer projectId = request.getProject().getId();
         if (!projectRepository.existsById(projectId)) {
             throw new ApiException("Project not found");
+        }
+
+        boolean alreadyRequested = investingRequestRepository.existsByInvestorIdAndProjectId(investorId, projectId);
+
+        if (alreadyRequested) {
+            throw new ApiException("Investor already has a request for this project");
         }
 
         request.setStatus("Pending");
@@ -71,6 +78,11 @@ public class InvestingRequestService {
         if (req.getStatus().equalsIgnoreCase("Rejected")) {
             throw new ApiException("Cannot accept a rejected request");
         }
+
+        Project project = req.getProject();
+        project.setInvestor(req.getInvestor());
+        projectRepository.save(project);
+
 
         req.setStatus("Accepted");
         investingRequestRepository.save(req);
