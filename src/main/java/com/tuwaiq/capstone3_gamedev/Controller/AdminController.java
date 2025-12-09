@@ -38,4 +38,10 @@ public class AdminController {
         adminService.deleteAdmin(id);
         return ResponseEntity.status(200).body(new ApiResponse("Admin deleted successfully"));
     }
+
+    @PutMapping("/update/{investorId}")
+    public ResponseEntity<?> approveInvestor(@PathVariable Integer investorId){
+        adminService.approveInvestor(investorId);
+        return ResponseEntity.status(200).body(new ApiResponse("Investor approved successfully"));
+    }
 }

@@ -2,7 +2,9 @@ package com.tuwaiq.capstone3_gamedev.Service;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
 import com.tuwaiq.capstone3_gamedev.Model.Admin;
+import com.tuwaiq.capstone3_gamedev.Model.Investor;
 import com.tuwaiq.capstone3_gamedev.Repository.AdminRepository;
+import com.tuwaiq.capstone3_gamedev.Repository.InvestorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class AdminService {
 
     private final AdminRepository adminRepository;
+    private final InvestorRepository investorRepository;
 
     public void addAdmin(Admin admin){
         admin.setCreated_at(LocalDateTime.now());
@@ -41,5 +44,18 @@ public class AdminService {
             throw new ApiException("Admin not found");
         }
         adminRepository.delete(admin);
+    }
+
+    public void approveInvestor(Integer investorId){
+        Investor investor=investorRepository.findInvestorById(investorId);
+        if (investor==null){
+            throw new ApiException("Investor not found");
+        }
+        if (investor.getStatus().equalsIgnoreCase("Rejected")){
+            throw new ApiException("Cannot accept a rejected investor");
+        }
+
+        investor.setStatus("Accepted");
+        investorRepository.save(investor);
     }
 }

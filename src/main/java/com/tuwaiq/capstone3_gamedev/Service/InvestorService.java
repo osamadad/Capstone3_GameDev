@@ -20,6 +20,7 @@ public class InvestorService {
 
     public void add(Investor investor) {
         investor.setCreatedAt(LocalDateTime.now());
+        investor.setStatus("Pending");
         investorRepository.save(investor);
     }
 

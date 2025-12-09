@@ -29,6 +29,12 @@ public class Investor {
     @NotEmpty(message = "Password is required")
     private String password;
 
+    @NotEmpty(message = "Sorry, the investor status can't be empty, please try again")
+    @Size(max = 35, message = "Sorry, the investor status can't be more than 35 characters, please try again")
+    @Pattern(regexp = "Pending|Accepted|Rejected",message = "Sorry, the investor status must be 'Pending', 'Accepted', or 'Rejected', please try again")
+    @Column(columnDefinition = "varchar(35) not null")
+    private String status;
+
     @NotNull
     @Positive
     private Double availableBudget;
