@@ -76,4 +76,8 @@ public class StudioService {
 
         studioRepository.delete(studio);
     }
+    public List<Studio> getStudiosByMostProjects() {
+        return studioRepository.findStudiosOrderByProjectsSizeDesc();
+    }
+
 }

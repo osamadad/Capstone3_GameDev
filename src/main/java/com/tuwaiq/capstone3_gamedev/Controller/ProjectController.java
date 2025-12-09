@@ -50,4 +50,34 @@ public class ProjectController {
         return ResponseEntity.status(200).body(new ApiResponse("Project assigned to platform successfully"));
     }
 
+    @GetMapping("/get-earnings-greater-than-x/{earningEstimation}")
+    public ResponseEntity<?> geByEarning(@PathVariable Double earningEstimation) {
+        return ResponseEntity.status(200).body(projectService.findProjectsByEarningEstimationGreaterThan(earningEstimation));
+    }
+
+    @GetMapping("/get-studio-id/{studioId}")
+    public ResponseEntity<?> getByStudioId(@PathVariable Integer studioId) {
+        return ResponseEntity.status(200).body(projectService.findProjectsByStudio_Id(studioId));
+    }
+
+    @GetMapping("/get-budget-greater-than-x/{budgetEstimation}")
+    public ResponseEntity<?> geByBudget(@PathVariable Double budgetEstimation) {
+        return ResponseEntity.status(200).body(projectService.findProjectsByBudgetEstimationGreaterThan(budgetEstimation));
+    }
+
+    @GetMapping("/get-by-scope/{scope}")
+    public ResponseEntity<?> getByScope(@PathVariable String scope) {
+        return ResponseEntity.status(200).body(projectService.findProjectsByScope(scope));
+    }
+
+    @GetMapping("/get-by-this-year")
+    public ResponseEntity<?> getByThisYear() {
+        return ResponseEntity.status(200).body(projectService.getThisYearProjects());
+    }
+
+    @GetMapping("/get-by-status/{status}")
+    public ResponseEntity<?> getByStatus(@PathVariable String status) {
+        return ResponseEntity.status(200).body(projectService.findProjectsByStatus(status));
+    }
+
 }
