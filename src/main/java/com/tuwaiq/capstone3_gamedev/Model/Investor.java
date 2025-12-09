@@ -33,13 +33,14 @@ public class Investor {
     @Positive
     private Double availableBudget;
 
-    @NotNull
-    @Min(0)
-    private Integer fundedProjects;
-
     private LocalDateTime createdAt;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "investor")
     private Set<InvestingRequest> investingRequests;
+
+    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
+    private Set<Project> fundedProjects;
+
+
 }
 

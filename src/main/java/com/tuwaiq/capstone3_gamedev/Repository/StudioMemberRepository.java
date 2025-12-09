@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface StudioMemberRepository extends JpaRepository<StudioMember,Integer> {
 
     StudioMember findStudioMemberById(Integer id);
+    boolean existsByUserIdAndStudioId(Integer userId, Integer studioId);
 }

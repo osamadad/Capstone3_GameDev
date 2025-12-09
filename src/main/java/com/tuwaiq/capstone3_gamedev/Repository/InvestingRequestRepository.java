@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface InvestingRequestRepository extends JpaRepository<InvestingRequest,Integer> {
 
     InvestingRequest findInvestingRequestById(Integer id);
+    boolean existsByInvestorIdAndProjectId(Integer investorId, Integer projectId);
+
 }

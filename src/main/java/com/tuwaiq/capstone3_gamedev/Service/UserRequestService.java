@@ -1,10 +1,9 @@
 package com.tuwaiq.capstone3_gamedev.Service;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
+import com.tuwaiq.capstone3_gamedev.Model.StudioMember;
 import com.tuwaiq.capstone3_gamedev.Model.UserRequest;
-import com.tuwaiq.capstone3_gamedev.Repository.StudioRepository;
-import com.tuwaiq.capstone3_gamedev.Repository.UserRepository;
-import com.tuwaiq.capstone3_gamedev.Repository.UserRequestRepository;
+import com.tuwaiq.capstone3_gamedev.Repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +16,7 @@ public class UserRequestService {
     private final UserRequestRepository userRequestRepository;
     private final UserRepository userRepository;
     private final StudioRepository studioRepository;
+    private final StudioMemberRepository studioMemberRepository;
 
 
 
@@ -37,6 +37,11 @@ public class UserRequestService {
             throw new ApiException("Studio not found");
         }
 
+        boolean alreadyMember = studioMemberRepository.existsByUserIdAndStudioId(userId, studioId);
+
+        if (alreadyMember) {
+            throw new ApiException("User is already a member of this studio");
+        }
         request.setStatus("Pending");
 
         request.setCreatedAt(LocalDateTime.now());
@@ -77,6 +82,15 @@ public class UserRequestService {
         if (req.getStatus().equalsIgnoreCase("Rejected")) {
             throw new ApiException("Cannot accept a rejected request");
         }
+
+        StudioMember member = new StudioMember();
+        member.setName(req.getUser().getUsername());
+        member.setRole(req.getUser().getRole());
+        member.setCreatedAt(LocalDateTime.now());
+        member.setUser(req.getUser());
+        member.setStudio(req.getStudio());
+
+        studioMemberRepository.save(member);
 
         req.setStatus("Accepted");
         userRequestRepository.save(req);

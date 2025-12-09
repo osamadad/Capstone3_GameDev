@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -71,4 +72,10 @@ public class Project {
     @ManyToOne
     @JsonIgnore
     private Studio studio;
+
+    @ManyToOne
+    private Investor investor;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private Set<InvestingRequest> investingRequests;
 }
