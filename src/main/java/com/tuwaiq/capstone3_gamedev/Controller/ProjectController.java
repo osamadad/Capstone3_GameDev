@@ -38,4 +38,16 @@ public class ProjectController {
         return ResponseEntity.status(200).body(new ApiResponse("project deleted"));
     }
 
+    @PutMapping("/assign-genre/{projectId}/{genreId}")
+    public ResponseEntity<?> assignProjectToGenre(@PathVariable Integer projectId, @PathVariable Integer genreId){
+        projectService.assignProjectToGenre(projectId, genreId);
+        return ResponseEntity.status(200).body(new ApiResponse("Project assigned to genre successfully"));
+    }
+
+    @PutMapping("/assign-platform/{projectId}/{platformId}")
+    public ResponseEntity<?> assignProjectToPlatform(@PathVariable Integer projectId, @PathVariable Integer platformId){
+        projectService.assignProjectToPlatform(projectId, platformId);
+        return ResponseEntity.status(200).body(new ApiResponse("Project assigned to platform successfully"));
+    }
+
 }
