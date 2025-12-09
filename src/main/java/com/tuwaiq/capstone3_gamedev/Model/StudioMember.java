@@ -27,13 +27,8 @@ public class StudioMember {
     @Column(columnDefinition = "varchar(40) not null")
     private String name;
 
-    @NotEmpty(message = "description cannot be empty")
-    @Column(columnDefinition = "varchar(200) not null")
-    private String description;
-
     @NotEmpty(message = "role cannot be empty")
-    @Pattern(regexp = "^(leader|artist|developer|designer)$",
-            message = "role must be leader, artist, developer, or designer")
+    @Pattern(regexp = "^(leader|member)$",message = "role must be leader, artist, developer, or designer")
     @Column(columnDefinition = "varchar(20) not null")
     private String role;
 
