@@ -28,8 +28,8 @@ public class Project {
     @Column(columnDefinition = "varchar(100) not null")
     private String name;
 
-    @NotEmpty(message = "Scope cannot be empty medium")
-    @Pattern(regexp = "^(game_jam|small|medium|big|AAA)$")
+    @NotEmpty(message = "Scope cannot be empty")
+    @Pattern(regexp = "^(game_jam|small|medium|big|AAA)$", message = "scope must be game_jam,small,medium,big or AAA")
     @Column(columnDefinition = "varchar(50) not null")
     private String scope;
 
@@ -60,8 +60,8 @@ public class Project {
     private LocalDateTime end_date;
 
     @NotEmpty(message = "Status cannot be empty")
-    @Column(columnDefinition = "varchar(20) not null inProgress")
-    @Pattern(regexp = "^(inProgress|finished)$")
+    @Column(columnDefinition = "varchar(20) not null")
+    @Pattern(regexp = "^(inProgress|finished)$",message = "status must be inProgress or finished")
     private String status;
 
     @NotNull(message = "Created at cannot be null")
