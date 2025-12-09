@@ -59,7 +59,7 @@ public class User {
     private LocalDateTime created_at;
     @ManyToMany(mappedBy = "users")
     private Set<Skill> skills;
-    @ManyToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     private Set<UserRequest> userRequests;
     @OneToOne
     @JsonIgnore
