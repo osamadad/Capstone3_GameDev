@@ -36,18 +36,14 @@ public class Studio {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "studio")
-    @JsonIgnore
     private Set<StudioMember> members;
 
     @OneToMany(mappedBy = "studio")
-    @JsonIgnore
     private Set<Project> projects;
 
     @OneToMany(mappedBy = "studio")
-    @JsonIgnore
     private Set<Post> posts;
 
     @OneToMany(mappedBy = "studio")
-    @JsonIgnore
     private Set<UserRequest> request;
 }

@@ -76,5 +76,4 @@ public class StudioService {
 
         studioRepository.delete(studio);
     }
-
 }
