@@ -37,10 +37,10 @@ public class Studio {
     @OneToMany(mappedBy = "studio")
     private Set<StudioMember> members;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studio")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "studio")
     private Set<Project> projects;
 
-    @OneToMany(mappedBy = "studio")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "studio")
     private Set<Post> posts;
 
 }

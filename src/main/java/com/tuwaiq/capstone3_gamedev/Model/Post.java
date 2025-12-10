@@ -44,7 +44,6 @@ public class Post {
 
     @ManyToOne
     @JsonIgnore
-    @NotNull(message = "Studio cannot be null")
     private Studio studio;
 
 }

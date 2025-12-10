@@ -106,7 +106,6 @@ public class UserRequestService {
         studioMember.setRole("member");
         studioMember.setCreatedAt(LocalDateTime.now());
         studioMember.setUser(req.getUser());
-        studioMember.getProjectMembers().add(projectMember);
 
         projectMemberRepository.save(projectMember);
         studioMemberRepository.save(studioMember);
