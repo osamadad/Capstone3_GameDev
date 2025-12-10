@@ -42,4 +42,30 @@ public class UserController {
         userService.assignSkill(userId,skillId);
         return ResponseEntity.status(200).body(new ApiResponse("Skill assign to user successfully"));
     }
+
+    @GetMapping("/skill/{skillName}")
+    public ResponseEntity<?> getUsersBySkill(@PathVariable String skillName) {
+        return ResponseEntity.status(200).body(userService.getUsersBySkill(skillName));
+    }
+
+    @GetMapping("/city/{city}")
+    public ResponseEntity<?> getUsersByCity(@PathVariable String city) {
+        return ResponseEntity.status(200).body(userService.getUsersByCity(city));
+    }
+
+    @GetMapping("/country/{country}")
+    public ResponseEntity<?> getUsersByCountry(@PathVariable String country) {
+        return ResponseEntity.status(200).body(userService.getUsersByCountry(country));
+    }
+
+    @GetMapping("/experience-more-than/{years}")
+    public ResponseEntity<?> getUsersWithExperienceMoreThan(@PathVariable Integer years) {
+        return ResponseEntity.status(200).body(userService.getUsersWithExperienceHigherThan(years));
+    }
+
+    @GetMapping("/role/{role}")
+    public ResponseEntity<?> getUsersByRole(@PathVariable String role) {
+        return ResponseEntity.status(200).body(userService.getUsersByRole(role));
+    }
+
 }

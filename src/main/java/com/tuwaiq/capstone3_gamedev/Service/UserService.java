@@ -64,4 +64,55 @@ public class UserService {
         }
         userRepository.delete(user);
     }
+
+    //Endpoints
+    public List<User> getUsersBySkill(String skill) {
+        List<User> users = userRepository.findUsersBySkill(skill);
+
+        if (users.isEmpty()) {
+            throw new ApiException("No users found with skill: " + skill);
+        }
+
+        return users;
+    }
+    public List<User> getUsersByCity(String city) {
+        List<User> users = userRepository.findByCityIgnoreCase(city);
+
+        if (users.isEmpty()) {
+            throw new ApiException("No users found in city: " + city);
+        }
+
+        return users;
+    }
+
+    public List<User> getUsersByCountry(String country) {
+        List<User> users = userRepository.findByCountryIgnoreCase(country);
+
+        if (users.isEmpty()) {
+            throw new ApiException("No users found in country: " + country);
+        }
+
+        return users;
+    }
+
+    public List<User> getUsersWithExperienceHigherThan(Integer years) {
+        List<User> users = userRepository.findByYearOfExperienceGreaterThan(years);
+
+        if (users.isEmpty()) {
+            throw new ApiException("No users found with more than " + years + " years of experience");
+        }
+
+        return users;
+    }
+
+    public List<User> getUsersByRole(String role) {
+        List<User> users = userRepository.findByRoleIgnoreCase(role);
+
+        if (users.isEmpty()) {
+            throw new ApiException("No users found with role: " + role);
+        }
+
+        return users;
+    }
+
 }

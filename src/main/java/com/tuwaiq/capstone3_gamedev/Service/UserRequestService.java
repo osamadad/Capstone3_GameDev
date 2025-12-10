@@ -112,4 +112,34 @@ public class UserRequestService {
         userRequestRepository.save(req);
     }
 
+    public List<UserRequest> getUserRequestsByUserId(Integer userId) {
+        UserRequest user = userRequestRepository.findUserRequestById(userId);
+        if (user==null) {
+            throw new ApiException("User not found");
+        }
+
+        List<UserRequest> requests = userRequestRepository.findAllByUserId(userId);
+
+        if (requests.isEmpty()) {
+            throw new ApiException("No requests found for user with id: " + userId);
+        }
+
+        return requests;
+    }
+
+    public List<UserRequest> getRequestsByStudioId(Integer studioId) {
+        if (!studioRepository.existsById(studioId)) {
+            throw new ApiException("Studio not found");
+        }
+
+        List<UserRequest> requests = userRequestRepository.findAllByStudioId(studioId);
+
+        if (requests.isEmpty()) {
+            throw new ApiException("No requests found for studio with id: "+ studioId);
+        }
+
+        return requests;
+    }
+
+
 }

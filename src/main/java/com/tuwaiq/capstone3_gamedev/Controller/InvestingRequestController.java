@@ -54,4 +54,15 @@ public class InvestingRequestController {
         return ResponseEntity.status(200).body("Investing request rejected");
     }
 
+    @GetMapping("/investor/{investorId}")
+    public ResponseEntity<?> getRequestsByInvestorId(@PathVariable Integer investorId) {
+        return ResponseEntity.status(200).body(investingRequestService.getRequestsByInvestorId(investorId));
+    }
+
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<?> getRequestsByProjectId(@PathVariable Integer projectId) {
+        return ResponseEntity.status(200).body(investingRequestService.getRequestsByProjectId(projectId));
+    }
+
+
 }
