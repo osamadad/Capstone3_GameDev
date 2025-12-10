@@ -34,7 +34,7 @@ public class Studio {
     @Column(columnDefinition = "datetime not null")
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "studio")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "studio")
     private Set<StudioMember> members;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "studio")

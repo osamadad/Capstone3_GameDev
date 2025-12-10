@@ -1,6 +1,7 @@
 package com.tuwaiq.capstone3_gamedev.Controller;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiResponse;
+import com.tuwaiq.capstone3_gamedev.DTOIn.ProjectPositionDTO;
 import com.tuwaiq.capstone3_gamedev.Model.ProjectPosition;
 import com.tuwaiq.capstone3_gamedev.Service.ProjectPositionService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,9 @@ public class ProjectPositionController {
 
     private final ProjectPositionService projectPositionService;
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addProjectPosition(@RequestBody ProjectPosition projectPosition){
-        projectPositionService.addProjectPosition(projectPosition);
+    @PostMapping("/add/{leaderId}")
+    public ResponseEntity<?> addProjectPosition(@PathVariable Integer leaderId,@RequestBody ProjectPositionDTO projectPositionDTO){
+        projectPositionService.addProjectPosition(leaderId,projectPositionDTO);
         return ResponseEntity.status(200).body(new ApiResponse("Project position added successfully"));
     }
 
@@ -27,9 +28,9 @@ public class ProjectPositionController {
         return ResponseEntity.status(200).body(projectPositionService.getProjectPositions());
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateProjectPosition(@PathVariable Integer id, @RequestBody ProjectPosition projectPosition){
-        projectPositionService.updateProjectPosition(id, projectPosition);
+    @PutMapping("/update/{leaderId}/{positionId}")
+    public ResponseEntity<?> updateProjectPosition(@PathVariable Integer leaderId, @PathVariable Integer positionId, @RequestBody ProjectPositionDTO projectPositionDTO){
+        projectPositionService.updateProjectPosition(leaderId,positionId, projectPositionDTO);
         return ResponseEntity.status(200).body(new ApiResponse("Project position updated successfully"));
     }
 

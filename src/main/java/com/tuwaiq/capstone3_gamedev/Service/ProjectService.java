@@ -125,6 +125,7 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
+    //system endpoint
     public void assignProjectToGenre(Integer projectId, Integer genreId) {
         Project project = projectRepository.findProjectById(projectId);
         Genre genre = genreRepository.findGenreById(genreId);
@@ -139,6 +140,7 @@ public class ProjectService {
         genreRepository.save(genre);
     }
 
+    //system endpoint
     public void assignProjectToPlatform(Integer projectId, Integer platformId) {
         Project project = projectRepository.findProjectById(projectId);
         Platform platform = platformRepository.findPlatformById(platformId);

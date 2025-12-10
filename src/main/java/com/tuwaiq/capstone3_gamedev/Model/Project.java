@@ -81,11 +81,11 @@ public class Project {
     private Set<Platform> platforms;
     @ManyToMany(mappedBy = "projects")
     private Set<Genre> genres;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "project")
     @JsonIgnore
     private Set<ProjectMember> projectMembers;
-    @OneToMany(mappedBy = "project")
-    private Set<UserRequest> request;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(orphanRemoval = true, mappedBy = "project")
+    private Set<UserRequest> userRequests;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<ProjectPosition> projectPositions;
 }

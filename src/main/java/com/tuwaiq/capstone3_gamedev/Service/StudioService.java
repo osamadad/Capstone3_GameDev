@@ -40,10 +40,8 @@ public class StudioService {
         if (user==null){
             throw new ApiException("User not found");
         }
-        StudioMember studioMember=new StudioMember(null,"leader", LocalDateTime.now(),user,studio,null);
-        studioMember.getProjectMembers().add(new ProjectMember());
-        studio.getMembers().add(studioMember);
-        studioRepository.save(studio);
+        StudioMember studioMember=new StudioMember(null,"leader", LocalDateTime.now(),user,studio);
+        studioMemberRepository.save(studioMember);
     }
 
     public void update(Integer studioMemberId, Integer id, Studio studio) {

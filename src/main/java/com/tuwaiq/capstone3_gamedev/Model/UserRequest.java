@@ -21,10 +21,12 @@ public class UserRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(columnDefinition = "varchar(155) not null")
     private String message;
     @Column(columnDefinition = "varchar(10) not null ")
-    @Pattern(regexp = "Pending|Rejected|Accepted", message = "Status must be 'Pending', 'Rejected', or 'Accepted'")
+    @Pattern(regexp = "Pending|Rejected|Accepted", message = "Status must be 'Pending', 'Rejected', or 'Accepted'")         /* as a refrence */
     private String status;
+    @Column(columnDefinition = "datetime")
     private LocalDateTime createdAt;
     @ManyToOne
     @JsonIgnore

@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 public class UserRequestDTO {
     @NotEmpty(message = "Message is required")
     @Size(max = 155, message = "Sorry, the message can't be longer than 155 characters, please try again")
-    @Column(columnDefinition = "varchar(155) not null")
     private String message;
     @NotNull(message = "Sorry, the user id can't be empty, please try again")
     private Integer userId;

@@ -84,7 +84,7 @@ public class UserRequestService {
             throw new ApiException("leader not found");
         }
         if (!user.getStudioMember().getRole().equalsIgnoreCase("leader")){
-            throw new ApiException("You are the leader, you don't have permissions to accept request");
+            throw new ApiException("You are not the leader, you don't have permissions to accept request");
         }
         ProjectMember projectMember=new ProjectMember();
         String compensationType=req.getProjectPosition().getCompensationType();
