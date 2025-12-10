@@ -52,6 +52,7 @@ public class ProjectService {
             throw new ApiException("Start date cannot be after end date");
         }
 
+        project.setStatus("not started");
         project.setCreatedAt(LocalDateTime.now());
         project.setStudio(studio);
         projectRepository.save(project);

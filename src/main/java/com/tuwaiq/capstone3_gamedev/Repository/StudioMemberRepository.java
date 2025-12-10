@@ -15,4 +15,7 @@ public interface StudioMemberRepository extends JpaRepository<StudioMember,Integ
 
     List<StudioMember> findAllByStudioId(Integer studioId);
 
+    boolean existsStudioMemberById(Integer id);
+
+    boolean existsByUser_Id(Integer userId);
 }

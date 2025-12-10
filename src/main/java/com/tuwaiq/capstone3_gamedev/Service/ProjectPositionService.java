@@ -30,6 +30,9 @@ public class ProjectPositionService {
         if (leader==null){
             throw new ApiException("User not found");
         }
+        if (leader.getStudioMember()==null){
+            throw new ApiException("This user doesn't belong to any studio");
+        }
         if (!leader.getStudioMember().getRole().equalsIgnoreCase("leader")){
             throw new ApiException("You are not the leader, you don't have permissions to create project positions");
         }
@@ -49,6 +52,9 @@ public class ProjectPositionService {
         User leader=userRepository.findUserById(leaderId);
         if (leader==null){
             throw new ApiException("User not found");
+        }
+        if (leader.getStudioMember()==null){
+            throw new ApiException("This user doesn't belong to any studio");
         }
         if (!leader.getStudioMember().getRole().equalsIgnoreCase("leader")){
             throw new ApiException("You are not the leader, you don't have permissions to update project positions");
