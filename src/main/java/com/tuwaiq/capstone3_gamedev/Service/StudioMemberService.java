@@ -27,13 +27,7 @@ public class StudioMemberService {
     public void update(Integer id, StudioMember studioMember) {
         StudioMember old = studioMemberRepository.findStudioMemberById(id);
         if (old == null) throw new ApiException("Studio member not found");
-
-        old.setName(studioMember.getName());
         old.setRole(studioMember.getRole());
-        old.setCreatedAt(studioMember.getCreatedAt());
-        old.setUser(studioMember.getUser());
-        old.setStudio(studioMember.getStudio());
-
         studioMemberRepository.save(old);
     }
 

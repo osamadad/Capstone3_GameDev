@@ -62,8 +62,11 @@ public class User {
     private LocalDateTime created_at;
     @ManyToMany
     private Set<Skill> skills;
-
+    @OneToMany(orphanRemoval = true, mappedBy = "user")
     private Set<UserRequest> userRequests;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    @PrimaryKeyJoinColumn
     private StudioMember studioMember;
+    @OneToMany(mappedBy = "user")
+    private Set<ProjectMember> projectMember;
 }

@@ -20,12 +20,12 @@ import java.util.Set;
 @Entity
 public class StudioMember {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(columnDefinition = "varchar(20) not null")
     private String role;
     private LocalDateTime createdAt;
     @OneToOne
+    @MapsId
     @JsonIgnore
     private User user;
     @ManyToOne
