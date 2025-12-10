@@ -11,5 +11,5 @@ public interface UserRequestRepository extends JpaRepository<UserRequest,Integer
 
     List<UserRequest> findAllByUserId(Integer userId);
 
-    List<UserRequest> findAllByStudioId(Integer studioId);
+    //List<UserRequest> findAllByStudioId(Integer studioId);
 }

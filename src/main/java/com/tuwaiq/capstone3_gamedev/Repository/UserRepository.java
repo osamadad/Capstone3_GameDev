@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     User findUserById(Integer id);
 
-    List<User> findUsersBySkill(@Param("skill") String skill);
+    //List<User> findUsersBySkill(@Param("skill") String skill);
 
     List<User> findByCityIgnoreCase(String city);
 
