@@ -1,8 +1,12 @@
 package com.tuwaiq.capstone3_gamedev.Service;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
+import com.tuwaiq.capstone3_gamedev.Model.Project;
 import com.tuwaiq.capstone3_gamedev.Model.ProjectMember;
+import com.tuwaiq.capstone3_gamedev.Model.StudioMember;
 import com.tuwaiq.capstone3_gamedev.Repository.ProjectMemberRepository;
+import com.tuwaiq.capstone3_gamedev.Repository.ProjectRepository;
+import com.tuwaiq.capstone3_gamedev.Repository.StudioMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProjectMemberService {
 
-    private ProjectMemberRepository projectMemberRepository;
+    private final ProjectMemberRepository projectMemberRepository;
+    private final StudioMemberRepository studioMemberRepository;
+    private final ProjectRepository projectRepository;
 
     public void addProjectMember(ProjectMember projectMember){
         projectMember.setCreated_at(LocalDateTime.now());

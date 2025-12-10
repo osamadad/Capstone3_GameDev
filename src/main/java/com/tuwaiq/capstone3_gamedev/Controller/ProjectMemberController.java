@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProjectMemberController {
 
-    private ProjectMemberService projectMemberService;
+    private final ProjectMemberService projectMemberService;
 
     @PostMapping("/add")
     public ResponseEntity<?> addProjectMember(@RequestBody ProjectMember projectMember){
