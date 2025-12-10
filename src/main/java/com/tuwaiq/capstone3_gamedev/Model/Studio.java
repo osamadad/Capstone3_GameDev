@@ -44,6 +44,4 @@ public class Studio {
     @OneToMany(mappedBy = "studio")
     private Set<Post> posts;
 
-    @OneToMany(mappedBy = "studio")
-    private Set<UserRequest> request;
 }

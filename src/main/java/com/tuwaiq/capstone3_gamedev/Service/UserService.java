@@ -20,6 +20,7 @@ public class UserService {
 
     public void addUser(User user){
         user.setCreated_at(LocalDateTime.now());
+        user.setInStudio(false);
         userRepository.save(user);
     }
 
