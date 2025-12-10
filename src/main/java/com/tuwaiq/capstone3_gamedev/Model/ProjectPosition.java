@@ -36,10 +36,10 @@ public class ProjectPosition {
     @Pattern(regexp = "free|revenue share|paid salary", message = "Sorry, the compensation type must be 'free', 'revenue share', or 'paid salary', please try again")
     @Column(columnDefinition = "varchar(15) not null")
     private String compensationType;
-    @NotEmpty(message = "Sorry, the compensation can't be empty, please try again")
-    @Size(max = 20, message = "Sorry, the compensation can't be more than 20 characters, please try again")
-    @Column(columnDefinition = "varchar(20) not null")
-    private String compensation;
+    @NotNull(message = "Sorry, the compensation can't be empty, please try again")
+    @PositiveOrZero(message = "Sorry, compensation can't be negative, please try again")
+    @Column(columnDefinition = "double not null")
+    private double compensation;
     @NotNull(message = "Sorry, the hours per week can't be empty, please try again")
     @Max(value = 12, message = "Sorry, the hours per week can't be more than 12 hours, please try again")
     @Column(columnDefinition = "int not null")

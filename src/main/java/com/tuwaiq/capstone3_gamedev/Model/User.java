@@ -31,7 +31,7 @@ public class User {
     private String password;
     @Email(message = "Sorry, the user email must follow a valid email format, please try again")
     @Size(max = 35, message = "Sorry, the user email can't be more than 35 character, please try again")
-    @Column(columnDefinition = "varchar(35) not null")
+    @Column(columnDefinition = "varchar(35) not null unique")
     private String email;
     @Size(max = 255, message = "Sorry, the user bio can't be more than 255 character, please try again")
     @Column(columnDefinition = "varchar(255)")

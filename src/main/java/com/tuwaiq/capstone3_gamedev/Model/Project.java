@@ -84,4 +84,8 @@ public class Project {
     @OneToMany(mappedBy = "project")
     @JsonIgnore
     private Set<ProjectMember> projectMembers;
+    @OneToMany(mappedBy = "project")
+    private Set<UserRequest> request;
+    @OneToMany(mappedBy = "project")
+    private Set<ProjectPosition> projectPositions;
 }

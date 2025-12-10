@@ -19,31 +19,19 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 public class StudioMember {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @NotEmpty(message = "name cannot be empty")
-    @Column(columnDefinition = "varchar(40) not null")
-    private String name;
-
-    @NotEmpty(message = "role cannot be empty")
-    @Pattern(regexp = "^(leader|member)$",message = "role must be leader, member")
     @Column(columnDefinition = "varchar(20) not null")
     private String role;
-
     private LocalDateTime createdAt;
-
     @OneToOne
     @JsonIgnore
     private User user;
-
     @ManyToOne
     @JsonIgnore
     @NotNull(message = "studio cannot be null")
     private Studio studio;
-
     @OneToMany(mappedBy = "studioMember")
     private Set<ProjectMember> projectMembers;
 }

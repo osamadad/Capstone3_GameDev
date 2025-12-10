@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,28 +21,19 @@ public class UserRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @NotEmpty(message = "Message is required")
     private String message;
-
-    @NotEmpty(message = "Status is required")
-    @Pattern(
-            regexp = "(?i)^(Pending|Accepted|Rejected)$",
-            message = "Status must be PENDING, ACCEPTED, or REJECTED"
-    )
+    @Column(columnDefinition = "varchar(10) not null ")
     private String status;
-
     private LocalDateTime createdAt;
-
-
     @ManyToOne
     @JsonIgnore
     private User user;
-
-
     @ManyToOne
     @JsonIgnore
-    private Studio studio;
+    private Project project;
+    @ManyToOne
+    @JsonIgnore
+    private ProjectPosition projectPosition;
 
 
 
