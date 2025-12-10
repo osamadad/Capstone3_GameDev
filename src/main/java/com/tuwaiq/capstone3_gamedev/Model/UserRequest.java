@@ -23,6 +23,7 @@ public class UserRequest {
     private Integer id;
     private String message;
     @Column(columnDefinition = "varchar(10) not null ")
+    @Pattern(regexp = "Pending|Rejected|Accepted", message = "Status must be 'Pending', 'Rejected', or 'Accepted'")
     private String status;
     private LocalDateTime createdAt;
     @ManyToOne
