@@ -44,6 +44,7 @@ public class UserService {
         userRepository.save(oldUser);
     }
 
+    // system endpoint
     public void assignSkill(Integer userId, Integer skillId){
         User user=userRepository.findUserById(userId);
         if (user==null){
@@ -54,7 +55,9 @@ public class UserService {
             throw new ApiException("Skill not found");
         }
         user.getSkills().add(skill);
+        skill.getUsers().add(user);
         userRepository.save(user);
+        skillRepository.save(skill);
     }
 
     public void deleteUser(Integer id){

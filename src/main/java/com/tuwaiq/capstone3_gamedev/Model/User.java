@@ -61,11 +61,6 @@ public class User {
     @Column(columnDefinition = "datetime")
     private LocalDateTime created_at;
     @ManyToMany
-    @JoinTable(
-            name = "user_skills",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id")
-    )
     private Set<Skill> skills;
 
     private Set<UserRequest> userRequests;
