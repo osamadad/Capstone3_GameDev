@@ -20,9 +20,9 @@ public class ProjectMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String CompensationType;
-    @Column(columnDefinition = "double not null")
+    @Column(columnDefinition = "double")
     private Double CompensationAmount;
-    @Column(columnDefinition = "double not null")
+    @Column(columnDefinition = "double")
     private Double revenueSharePercentage;
     @Column(columnDefinition = "int not null")
     private Integer hoursPerWeek;

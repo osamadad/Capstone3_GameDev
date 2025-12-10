@@ -55,20 +55,15 @@ public class User {
     @Size(max = 155, message = "Sorry, the user portfolio can't be more than 155 character, please try again")
     @Column(columnDefinition = "varchar(155) not null")
     private String portfolioURL;
-    @AssertFalse(message = "Sorry, the user in studio must false, please try again")
-    @Column(columnDefinition = "boolean")
-    private Boolean inStudio;
     @Column(columnDefinition = "datetime")
     private LocalDateTime created_at;
     @ManyToMany
-    @JoinTable(
-            name = "user_skills",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id")
-    )
     private Set<Skill> skills;
-
+    @OneToMany(orphanRemoval = true, mappedBy = "user")
     private Set<UserRequest> userRequests;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    @PrimaryKeyJoinColumn
     private StudioMember studioMember;
+    @OneToMany(orphanRemoval = true, mappedBy = "user")
+    private Set<ProjectMember> projectMember;
 }

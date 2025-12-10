@@ -20,9 +20,9 @@ public class StudioController {
         return ResponseEntity.status(200).body(studioService.get());
     }
 
-    @PostMapping("add/{studioMemberId}")
-    public ResponseEntity<?> add(@PathVariable Integer studioMemberId, @RequestBody @Valid Studio studio) {
-        studioService.add(studioMemberId, studio);
+    @PostMapping("add/{userId}")
+    public ResponseEntity<?> add(@PathVariable Integer userId, @RequestBody @Valid Studio studio) {
+        studioService.add(userId, studio);
         return ResponseEntity.status(200).body(new ApiResponse("studio added"));
     }
 

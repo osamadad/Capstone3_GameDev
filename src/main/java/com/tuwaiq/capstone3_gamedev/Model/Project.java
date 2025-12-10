@@ -58,12 +58,10 @@ public class Project {
     @Column(columnDefinition = "datetime not null")
     private LocalDateTime endDate;
 
-    @NotEmpty(message = "Status cannot be empty")
     @Column(columnDefinition = "varchar(20) not null")
-    @Pattern(regexp = "^(inProgress|finished)$",message = "status must be inProgress or finished")
+    @Pattern(regexp = "^(not started|in Progress|finished)$",message = "status must be not started, in Progress or finished")
     private String status;
 
-    @NotNull(message = "Created at cannot be null")
     @Column(columnDefinition = "datetime not null")
     private LocalDateTime createdAt;
 
@@ -81,11 +79,11 @@ public class Project {
     private Set<Platform> platforms;
     @ManyToMany(mappedBy = "projects")
     private Set<Genre> genres;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "project")
     @JsonIgnore
     private Set<ProjectMember> projectMembers;
-    @OneToMany(mappedBy = "project")
-    private Set<UserRequest> request;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(orphanRemoval = true, mappedBy = "project")
+    private Set<UserRequest> userRequests;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<ProjectPosition> projectPositions;
 }

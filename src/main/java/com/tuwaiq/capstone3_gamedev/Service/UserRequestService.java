@@ -30,7 +30,7 @@ public class UserRequestService {
         if (user==null){
             throw new ApiException("User not found");
         }
-        if (user.getInStudio().equals(true)){
+        if (user.getStudioMember()!=null){
             throw new ApiException("You are already in a studio you can't make another request");
         }
         Project project=projectRepository.findProjectById(requestDTO.getProjectId());
@@ -84,7 +84,7 @@ public class UserRequestService {
             throw new ApiException("leader not found");
         }
         if (!user.getStudioMember().getRole().equalsIgnoreCase("leader")){
-            throw new ApiException("You are the leader, you don't have permissions to accept request");
+            throw new ApiException("You are not the leader, you don't have permissions to accept request");
         }
         ProjectMember projectMember=new ProjectMember();
         String compensationType=req.getProjectPosition().getCompensationType();
@@ -106,7 +106,6 @@ public class UserRequestService {
         studioMember.setRole("member");
         studioMember.setCreatedAt(LocalDateTime.now());
         studioMember.setUser(req.getUser());
-        studioMember.getProjectMembers().add(projectMember);
 
         projectMemberRepository.save(projectMember);
         studioMemberRepository.save(studioMember);
@@ -149,19 +148,19 @@ public class UserRequestService {
         return requests;
     }
 
-    public List<UserRequest> getRequestsByStudioId(Integer studioId) {
-        if (!studioRepository.existsById(studioId)) {
-            throw new ApiException("Studio not found");
-        }
-
-        List<UserRequest> requests = userRequestRepository.findAllByStudioId(studioId);
-
-        if (requests.isEmpty()) {
-            throw new ApiException("No requests found for studio with id: "+ studioId);
-        }
-
-        return requests;
-    }
+//    public List<UserRequest> getRequestsByStudioId(Integer studioId) {
+//        if (!studioRepository.existsById(studioId)) {
+//            throw new ApiException("Studio not found");
+//        }
+//
+//        List<UserRequest> requests = userRequestRepository.findAllByStudioId(studioId);
+//
+//        if (requests.isEmpty()) {
+//            throw new ApiException("No requests found for studio with id: "+ studioId);
+//        }
+//
+//        return requests;
+//    }
 
 
 }

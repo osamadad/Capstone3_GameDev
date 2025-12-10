@@ -31,17 +31,16 @@ public class Studio {
     @Column(columnDefinition = "varchar(200) not null")
     private String description;
 
-    @NotNull(message = "createdAt cannot be null")
     @Column(columnDefinition = "datetime not null")
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "studio")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "studio")
     private Set<StudioMember> members;
 
-    @OneToMany(mappedBy = "studio")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "studio")
     private Set<Project> projects;
 
-    @OneToMany(mappedBy = "studio")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "studio")
     private Set<Post> posts;
 
 }

@@ -20,7 +20,6 @@ public class UserService {
 
     public void addUser(User user){
         user.setCreated_at(LocalDateTime.now());
-        user.setInStudio(false);
         userRepository.save(user);
     }
 
@@ -44,6 +43,7 @@ public class UserService {
         userRepository.save(oldUser);
     }
 
+    // system endpoint
     public void assignSkill(Integer userId, Integer skillId){
         User user=userRepository.findUserById(userId);
         if (user==null){
@@ -54,7 +54,9 @@ public class UserService {
             throw new ApiException("Skill not found");
         }
         user.getSkills().add(skill);
+        skill.getUsers().add(user);
         userRepository.save(user);
+        skillRepository.save(skill);
     }
 
     public void deleteUser(Integer id){
@@ -66,15 +68,16 @@ public class UserService {
     }
 
     //Endpoints
-    public List<User> getUsersBySkill(String skill) {
-        List<User> users = userRepository.findUsersBySkill(skill);
+//    public List<User> getUsersBySkill(String skill) {
+//        List<User> users = userRepository.findUsersBySkill(skill);
+//
+//        if (users.isEmpty()) {
+//            throw new ApiException("No users found with skill: " + skill);
+//        }
+//
+//        return users;
+//    }
 
-        if (users.isEmpty()) {
-            throw new ApiException("No users found with skill: " + skill);
-        }
-
-        return users;
-    }
     public List<User> getUsersByCity(String city) {
         List<User> users = userRepository.findByCityIgnoreCase(city);
 
