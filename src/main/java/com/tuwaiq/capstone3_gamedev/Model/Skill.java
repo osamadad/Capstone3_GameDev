@@ -25,7 +25,8 @@ public class Skill {
     @Size(max = 35, message = "Sorry, the skill name can't be empty, please try again")
     @Column(columnDefinition = "varchar(35) not null")
     private String name;
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "skills")
     @JsonIgnore
     private Set<User> users;
 }

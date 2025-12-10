@@ -102,5 +102,35 @@ public class InvestingRequestService {
         investingRequestRepository.save(req);
     }
 
+    public List<InvestingRequest> getRequestsByInvestorId(Integer investorId) {
+        if (!investorRepository.existsById(investorId)) {
+            throw new ApiException("Investor not found");
+        }
+
+        List<InvestingRequest> requests = investingRequestRepository.findAllByInvestorId(investorId);
+
+        if (requests.isEmpty()) {
+            throw new ApiException("No investing requests found for investor with id: "+ investorId);
+        }
+
+        return requests;
+    }
+
+    public List<InvestingRequest> getRequestsByProjectId(Integer projectId) {
+        if (!projectRepository.existsById(projectId)) {
+            throw new ApiException("Project not found");
+        }
+
+        List<InvestingRequest> requests = investingRequestRepository.findAllByProjectId(projectId);
+
+        if (requests.isEmpty()) {
+            throw new ApiException("No investing requests found for project with id: "+projectId);
+        }
+
+        return requests;
+    }
+
+
+
 
 }
