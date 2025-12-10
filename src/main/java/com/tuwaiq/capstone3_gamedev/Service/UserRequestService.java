@@ -30,7 +30,7 @@ public class UserRequestService {
         if (user==null){
             throw new ApiException("User not found");
         }
-        if (user.getInStudio().equals(true)){
+        if (user.getStudioMember()!=null){
             throw new ApiException("You are already in a studio you can't make another request");
         }
         Project project=projectRepository.findProjectById(requestDTO.getProjectId());
@@ -148,19 +148,19 @@ public class UserRequestService {
         return requests;
     }
 
-    public List<UserRequest> getRequestsByStudioId(Integer studioId) {
-        if (!studioRepository.existsById(studioId)) {
-            throw new ApiException("Studio not found");
-        }
-
-        List<UserRequest> requests = userRequestRepository.findAllByStudioId(studioId);
-
-        if (requests.isEmpty()) {
-            throw new ApiException("No requests found for studio with id: "+ studioId);
-        }
-
-        return requests;
-    }
+//    public List<UserRequest> getRequestsByStudioId(Integer studioId) {
+//        if (!studioRepository.existsById(studioId)) {
+//            throw new ApiException("Studio not found");
+//        }
+//
+//        List<UserRequest> requests = userRequestRepository.findAllByStudioId(studioId);
+//
+//        if (requests.isEmpty()) {
+//            throw new ApiException("No requests found for studio with id: "+ studioId);
+//        }
+//
+//        return requests;
+//    }
 
 
 }

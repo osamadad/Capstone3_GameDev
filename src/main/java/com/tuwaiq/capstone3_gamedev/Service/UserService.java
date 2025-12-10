@@ -20,7 +20,6 @@ public class UserService {
 
     public void addUser(User user){
         user.setCreated_at(LocalDateTime.now());
-        user.setInStudio(false);
         userRepository.save(user);
     }
 
@@ -69,15 +68,16 @@ public class UserService {
     }
 
     //Endpoints
-    public List<User> getUsersBySkill(String skill) {
-        List<User> users = userRepository.findUsersBySkill(skill);
+//    public List<User> getUsersBySkill(String skill) {
+//        List<User> users = userRepository.findUsersBySkill(skill);
+//
+//        if (users.isEmpty()) {
+//            throw new ApiException("No users found with skill: " + skill);
+//        }
+//
+//        return users;
+//    }
 
-        if (users.isEmpty()) {
-            throw new ApiException("No users found with skill: " + skill);
-        }
-
-        return users;
-    }
     public List<User> getUsersByCity(String city) {
         List<User> users = userRepository.findByCityIgnoreCase(city);
 
