@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/studiomember")
+@RequestMapping("api/v1/studioMember")
 @RequiredArgsConstructor
 public class StudioMemberController {
 
@@ -37,4 +37,10 @@ public class StudioMemberController {
         studioMemberService.delete(id);
         return ResponseEntity.status(200).body(new ApiResponse("studio member deleted"));
     }
+
+    @GetMapping("/by-studio/{studioId}")
+    public ResponseEntity<?> getMembersByStudio(@PathVariable Integer studioId) {
+        return ResponseEntity.status(200).body(studioMemberService.getStudioMembers(studioId));
+    }
+
 }

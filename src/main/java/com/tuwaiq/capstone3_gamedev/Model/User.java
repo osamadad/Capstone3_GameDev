@@ -48,7 +48,7 @@ public class User {
     private Integer yearOfExperience;
     @NotEmpty(message = "Sorry, the user role can't be empty, please try again")
     @Size( max = 30, message = "Sorry, the user role can't be more than 50 character, please try again")
-    @Pattern(regexp = "game design|programmer|artist|producer|sound designer", message = "Sorry, the user role can only be 'game designer', 'programmer', 'artist', 'producer', or 'sound designer', please try again")
+    @Pattern(regexp = "(?i)^(game design|programmer|artist|producer|sound designer)$", message = "Sorry, the user role can only be 'game designer', 'programmer', 'artist', 'producer', or 'sound designer', please try again")
     @Column(columnDefinition = "varchar(30) not null")
     private String role;
     @NotEmpty(message = "Sorry, the user portfolio can't be empty, please try again")
@@ -57,9 +57,14 @@ public class User {
     private String portfolioURL;
     @Column(columnDefinition = "datetime")
     private LocalDateTime created_at;
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
+    @JoinTable(
+            name = "user_skills",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
     private Set<Skill> skills;
-    @OneToMany(mappedBy = "user")
+
     private Set<UserRequest> userRequests;
     @OneToOne
     private StudioMember studioMember;

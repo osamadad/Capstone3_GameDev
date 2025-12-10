@@ -5,12 +5,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
+
+import java.time.LocalDateTime;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project,Integer> {
     Project findProjectById(Integer id);
+
+    List<Project> findAllByStudioIdAndInvestorIsNotNull(Integer studioId);
+
+    List<Project> findAllByInvestorId(Integer investorId);
+
+
     List<Project> findProjectsByEarningEstimationGreaterThan(Double earningEstimation);
     List<Project> findProjectsByBudgetEstimationGreaterThan(Double budgetEstimation);
     List<Project> findProjectsByScope(String scope);

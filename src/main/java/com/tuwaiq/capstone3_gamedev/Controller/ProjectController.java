@@ -80,4 +80,16 @@ public class ProjectController {
         return ResponseEntity.status(200).body(projectService.findProjectsByStatus(status));
     }
 
+    @GetMapping("/studio/{studioId}")
+    public ResponseEntity<?> getFundedProjectsByStudioId(@PathVariable Integer studioId) {
+        return ResponseEntity.status(200).body(projectService.getFundedProjectsByStudioId(studioId));
+    }
+
+    @GetMapping("/investor/{investorId}")
+    public ResponseEntity<?> getFundedProjectsByInvestorId(@PathVariable Integer investorId) {
+        return ResponseEntity.status(200).body(projectService.getFundedProjectsByInvestorId(investorId));
+    }
+
+
+
 }

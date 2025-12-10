@@ -3,6 +3,7 @@ package com.tuwaiq.capstone3_gamedev.Service;
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
 import com.tuwaiq.capstone3_gamedev.Model.StudioMember;
 import com.tuwaiq.capstone3_gamedev.Repository.StudioMemberRepository;
+import com.tuwaiq.capstone3_gamedev.Repository.StudioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class StudioMemberService {
 
     private final StudioMemberRepository studioMemberRepository;
+    private final StudioRepository studioRepository;
 
     public List<StudioMember> get() {
         return studioMemberRepository.findAll();
@@ -41,4 +43,20 @@ public class StudioMemberService {
 
         studioMemberRepository.delete(old);
     }
+
+    //Endpoints
+    public List<StudioMember> getStudioMembers(Integer studioId) {
+        if (!studioRepository.existsById(studioId)) {
+            throw new ApiException("Studio not found");
+        }
+
+        List<StudioMember> members = studioMemberRepository.findAllByStudioId(studioId);
+
+        if (members.isEmpty()) {
+            throw new ApiException("This studio has no members yet");
+        }
+
+        return members;
+    }
+
 }
