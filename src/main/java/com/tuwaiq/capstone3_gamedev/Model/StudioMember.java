@@ -30,8 +30,5 @@ public class StudioMember {
     private User user;
     @ManyToOne
     @JsonIgnore
-    @NotNull(message = "studio cannot be null")
     private Studio studio;
-    @OneToMany(mappedBy = "studioMember")
-    private Set<ProjectMember> projectMembers;
 }

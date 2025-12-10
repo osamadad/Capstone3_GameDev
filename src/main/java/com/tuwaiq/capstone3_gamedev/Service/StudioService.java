@@ -1,6 +1,7 @@
 package com.tuwaiq.capstone3_gamedev.Service;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
+import com.tuwaiq.capstone3_gamedev.Model.ProjectMember;
 import com.tuwaiq.capstone3_gamedev.Model.Studio;
 import com.tuwaiq.capstone3_gamedev.Model.StudioMember;
 import com.tuwaiq.capstone3_gamedev.Model.User;
@@ -39,7 +40,8 @@ public class StudioService {
         if (user==null){
             throw new ApiException("User not found");
         }
-        StudioMember studioMember=new StudioMember(null,user.getUsername(),"leader", LocalDateTime.now(),user,studio);
+        StudioMember studioMember=new StudioMember(null,"leader", LocalDateTime.now(),user,studio,null);
+        studioMember.getProjectMembers().add(new ProjectMember());
         studio.getMembers().add(studioMember);
         studioRepository.save(studio);
     }
