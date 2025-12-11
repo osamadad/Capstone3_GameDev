@@ -36,7 +36,7 @@ public class ProjectPositionService {
         if (!leader.getStudioMember().getRole().equalsIgnoreCase("leader")){
             throw new ApiException("You are not the leader, you don't have permissions to create project positions");
         }
-        ProjectPosition projectPosition=new ProjectPosition(null, projectPositionDTO.getAvailablePosition(), projectPositionDTO.getRequiredSkills(), projectPositionDTO.getDescription(), projectPositionDTO.getCompensationType(), projectPositionDTO.getCompensation(), projectPositionDTO.getHoursPerWeek(),project,null);
+        ProjectPosition projectPosition=new ProjectPosition(null, projectPositionDTO.getAvailablePosition(), projectPositionDTO.getRequiredSkills(), projectPositionDTO.getDescription(), projectPositionDTO.getCompensationType(), projectPositionDTO.getCompensation(), projectPositionDTO.getHoursPerWeek(),project,null,null);
         projectPositionRepository.save(projectPosition);
     }
 

@@ -61,6 +61,8 @@ public class User {
     private Set<Skill> skills;
     @OneToMany(orphanRemoval = true, mappedBy = "user")
     private Set<UserRequest> userRequests;
+    @OneToMany(orphanRemoval = true, mappedBy = "user")
+    private Set<ProjectRequest> projectRequests;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @PrimaryKeyJoinColumn
     private StudioMember studioMember;
