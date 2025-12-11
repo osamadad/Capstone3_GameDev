@@ -84,6 +84,8 @@ public class Project {
     private Set<ProjectMember> projectMembers;
     @OneToMany(orphanRemoval = true, mappedBy = "project")
     private Set<UserRequest> userRequests;
+    @OneToMany(orphanRemoval = true, mappedBy = "project")
+    private Set<ProjectRequest> projectRequests;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<ProjectPosition> projectPositions;
 }

@@ -36,4 +36,6 @@ public class ProjectPosition {
     private Project project;
     @OneToMany(orphanRemoval = true, mappedBy = "projectPosition")
     private Set<UserRequest> userRequests;
+    @OneToMany(orphanRemoval = true, mappedBy = "projectPosition")
+    private Set<ProjectRequest> projectRequests;
 }
