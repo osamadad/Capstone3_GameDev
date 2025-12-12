@@ -68,15 +68,15 @@ public class UserService {
     }
 
     //Endpoints
-//    public List<User> getUsersBySkill(String skill) {
-//        List<User> users = userRepository.findUsersBySkill(skill);
-//
-//        if (users.isEmpty()) {
-//            throw new ApiException("No users found with skill: " + skill);
-//        }
-//
-//        return users;
-//    }
+    public List<User> getUsersBySkill(String skill) {
+        List<User> users = userRepository.findUsersBySkillName(skill);
+
+        if (users.isEmpty()) {
+            throw new ApiException("No users found with skill: " + skill);
+        }
+
+        return users;
+    }
 
     public List<User> getUsersByCity(String city) {
         List<User> users = userRepository.findByCityIgnoreCase(city);
