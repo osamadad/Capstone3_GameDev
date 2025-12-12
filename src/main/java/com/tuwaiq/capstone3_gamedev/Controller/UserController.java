@@ -43,10 +43,10 @@ public class UserController {
         return ResponseEntity.status(200).body(new ApiResponse("Skill assign to user successfully"));
     }
 
-//    @GetMapping("/skill/{skillName}")
-//    public ResponseEntity<?> getUsersBySkill(@PathVariable String skillName) {
-//        return ResponseEntity.status(200).body(userService.getUsersBySkill(skillName));
-//    }
+    @GetMapping("/skill/{skillName}")
+    public ResponseEntity<?> getUsersBySkill(@PathVariable String skillName) {
+        return ResponseEntity.status(200).body(userService.getUsersBySkill(skillName));
+    }
 
     @GetMapping("/city/{city}")
     public ResponseEntity<?> getUsersByCity(@PathVariable String city) {
