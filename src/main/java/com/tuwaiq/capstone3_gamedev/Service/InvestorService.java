@@ -34,13 +34,17 @@ public class InvestorService {
         old.setFullName(investor.getFullName());
         old.setEmail(investor.getEmail());
         old.setPassword(investor.getPassword());
-        old.setAvailableBudget(investor.getAvailableBudget());
+        old.setMaxAvailableBudget(investor.getMaxAvailableBudget());
 
         investorRepository.save(old);
     }
 
     public void delete(Integer id) {
-        investorRepository.deleteById(id);
+        Investor investor=investorRepository.findInvestorById(id);
+        if (investor==null){
+            throw new ApiException("Investor not found");
+        }
+        investorRepository.delete(investor);
     }
 
 }

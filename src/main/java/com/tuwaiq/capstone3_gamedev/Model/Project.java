@@ -69,11 +69,10 @@ public class Project {
     @JsonIgnore
     private Studio studio;
 
-    @ManyToOne
-    private Investor investor;
-
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<InvestingRequest> investingRequests;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    private Set<ProjectInvestor> projectInvestors;
 
     @ManyToMany(mappedBy = "projects")
     private Set<Platform> platforms;
