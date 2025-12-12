@@ -1,5 +1,6 @@
 package com.tuwaiq.capstone3_gamedev.Controller;
 
+import com.tuwaiq.capstone3_gamedev.DTOIn.InvestingRequestDTO;
 import com.tuwaiq.capstone3_gamedev.Model.InvestingRequest;
 import com.tuwaiq.capstone3_gamedev.Service.InvestingRequestService;
 import jakarta.validation.Valid;
@@ -21,29 +22,29 @@ public class InvestingRequestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody @Valid InvestingRequest request) {
-        investingRequestService.add(request);
+    public ResponseEntity<?> add(@RequestBody @Valid InvestingRequestDTO investingRequestDTO) {
+        investingRequestService.add(investingRequestDTO);
         return ResponseEntity.status(200).body("Investing request added successfully");
     }
 
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody @Valid InvestingRequest request) {
-        investingRequestService.update(id, request);
+    @PutMapping("/update/{investorId}/{requestId}")
+    public ResponseEntity<?> update(@PathVariable Integer investorId,@PathVariable Integer requestId, @RequestBody @Valid InvestingRequestDTO investingRequestDTO) {
+        investingRequestService.update(investorId,requestId, investingRequestDTO);
         return ResponseEntity.status(200).body("Investing request updated successfully");
     }
 
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
-        investingRequestService.delete(id);
+    @DeleteMapping("/delete/{investorId}/{requestId}")
+    public ResponseEntity<?> delete(@PathVariable Integer investorId,@PathVariable Integer requestId) {
+        investingRequestService.delete(investorId,requestId);
         return ResponseEntity.status(200).body("Investing request deleted successfully");
     }
 
     //Endpoints
-    @PutMapping("/accept/{id}")
-    public ResponseEntity<?> acceptRequest(@PathVariable Integer id) {
-        investingRequestService.acceptRequest(id);
+    @PutMapping("/accept/{leaderId}/{requestId}")
+    public ResponseEntity<?> acceptRequest(@PathVariable Integer leaderId,@PathVariable Integer requestId) {
+        investingRequestService.acceptRequest(leaderId,requestId);
         return ResponseEntity.status(200).body("Investing request accepted");
     }
 
