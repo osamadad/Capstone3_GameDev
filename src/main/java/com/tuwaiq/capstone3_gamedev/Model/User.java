@@ -63,7 +63,7 @@ public class User {
     private Set<UserRequest> userRequests;
     @OneToMany(orphanRemoval = true, mappedBy = "user")
     private Set<ProjectRequest> projectRequests;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    @OneToOne(orphanRemoval = true, mappedBy = "user")
     @PrimaryKeyJoinColumn
     private StudioMember studioMember;
     @OneToMany(orphanRemoval = true, mappedBy = "user")
