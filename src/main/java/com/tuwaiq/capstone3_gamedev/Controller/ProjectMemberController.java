@@ -1,6 +1,7 @@
 package com.tuwaiq.capstone3_gamedev.Controller;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiResponse;
+import com.tuwaiq.capstone3_gamedev.DTOIn.ProjectMemberDTO;
 import com.tuwaiq.capstone3_gamedev.Model.ProjectMember;
 import com.tuwaiq.capstone3_gamedev.Service.ProjectMemberService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,9 @@ public class ProjectMemberController {
 
     private final ProjectMemberService projectMemberService;
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addProjectMember(@RequestBody ProjectMember projectMember){
-        projectMemberService.addProjectMember(projectMember);
+    @PostMapping("/add/{leaderId}")
+    public ResponseEntity<?> addProjectMember(@PathVariable Integer leaderId, @RequestBody ProjectMemberDTO projectMemberDTO){
+        projectMemberService.addProjectMember(leaderId, projectMemberDTO);
         return ResponseEntity.status(200).body(new ApiResponse("Project member added successfully"));
     }
 
@@ -27,15 +28,15 @@ public class ProjectMemberController {
         return ResponseEntity.status(200).body(projectMemberService.getProjectMembers());
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateProjectMember(@PathVariable Integer id, @RequestBody ProjectMember projectMember){
-        projectMemberService.updateProjectMember(id, projectMember);
+    @PutMapping("/update/{leaderId}/{projectMemberId}")
+    public ResponseEntity<?> updateProjectMember(@PathVariable Integer leaderId,@PathVariable Integer projectMemberId, @RequestBody ProjectMember projectMember){
+        projectMemberService.updateProjectMember(leaderId,projectMemberId, projectMember);
         return ResponseEntity.status(200).body(new ApiResponse("Project member updated successfully"));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteProjectMember(@PathVariable Integer id){
-        projectMemberService.deleteProjectMember(id);
+    @DeleteMapping("/delete/{leaderId}/{projectMemberId}")
+    public ResponseEntity<?> deleteProjectMember(@PathVariable Integer leaderId,@PathVariable Integer projectMemberId){
+        projectMemberService.deleteProjectMember(leaderId,projectMemberId);
         return ResponseEntity.status(200).body(new ApiResponse("Project member deleted successfully"));
     }
 }

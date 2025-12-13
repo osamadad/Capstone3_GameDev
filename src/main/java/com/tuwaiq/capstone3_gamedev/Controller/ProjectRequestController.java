@@ -17,9 +17,9 @@ public class ProjectRequestController {
 
     private final ProjectRequestService projectRequestService;
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addProjectRequest(@RequestBody ProjectRequestDTO projectRequestDTO){
-        projectRequestService.addProjectRequest(projectRequestDTO);
+    @PostMapping("/add/{leaderId}")
+    public ResponseEntity<?> addProjectRequest(@PathVariable Integer leaderId,@RequestBody ProjectRequestDTO projectRequestDTO){
+        projectRequestService.addProjectRequest(leaderId, projectRequestDTO);
         return ResponseEntity.status(200).body(new ApiResponse("Project request added successfully"));
     }
 

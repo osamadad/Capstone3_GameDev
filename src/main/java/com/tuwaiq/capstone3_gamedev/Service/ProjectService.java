@@ -29,11 +29,11 @@ public class ProjectService {
     private final StudioRepository studioRepository;
     private final InvestorRepository investorRepository;
 
-    public List<Project> get() {
+    public List<Project> getProjects() {
         return projectRepository.findAll();
     }
 
-    public void add(Integer memberId, Project project) {
+    public void addProject(Integer memberId, Project project) {
         StudioMember member = studioMemberRepository.findStudioMemberById(memberId);
         if (member == null) {
             throw new ApiException("Member not found");
@@ -58,7 +58,7 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
-    public void update(Integer memberId, Integer projectId, Project project) {
+    public void updateProject(Integer memberId, Integer projectId, Project project) {
         StudioMember member = studioMemberRepository.findStudioMemberById(memberId);
         if (member == null) {
             throw new ApiException("Member not found");
@@ -99,7 +99,7 @@ public class ProjectService {
         projectRepository.save(oldProject);
     }
 
-    public void delete(Integer memberId, Integer projectId) {
+    public void deleteProject(Integer memberId, Integer projectId) {
         StudioMember member = studioMemberRepository.findStudioMemberById(memberId);
         if (member == null) {
             throw new ApiException("Member not found");
@@ -127,13 +127,15 @@ public class ProjectService {
     }
 
     //system endpoint
-    public void assignProjectToGenre(Integer projectId, Integer genreId) {
+    public void assignProjectToGenre(Integer leaderId, Integer projectId, Integer genreId) {
         Project project = projectRepository.findProjectById(projectId);
         Genre genre = genreRepository.findGenreById(genreId);
 
         if (genre == null || project == null) {
             throw new ApiException("Project or genre not found");
         }
+
+        checkStudioLeader(leaderId,project);
 
         project.getGenres().add(genre);
         genre.getProjects().add(project);
@@ -142,7 +144,7 @@ public class ProjectService {
     }
 
     //system endpoint
-    public void assignProjectToPlatform(Integer projectId, Integer platformId) {
+    public void assignProjectToPlatform(Integer leaderId, Integer projectId, Integer platformId) {
         Project project = projectRepository.findProjectById(projectId);
         Platform platform = platformRepository.findPlatformById(platformId);
 
@@ -150,10 +152,61 @@ public class ProjectService {
             throw new ApiException("Project or platform not found");
         }
 
+        checkStudioLeader(leaderId,project);
+
         project.getPlatforms().add(platform);
         platform.getProjects().add(project);
         projectRepository.save(project);
         platformRepository.save(platform);
+    }
+
+    public String  progressProjectStatus(Integer leaderId, Integer projectId){
+        StudioMember member = studioMemberRepository.findStudioMemberById(leaderId);
+        if (member == null) {
+            throw new ApiException("Member not found");
+        }
+
+        if (!"leader".equalsIgnoreCase(member.getRole())) {
+            throw new ApiException("Only leaders can delete projects");
+        }
+
+        Studio studio = member.getStudio();
+        if (studio == null) {
+            throw new ApiException("Member does not belong to any studio");
+        }
+
+        Project project = projectRepository.findProjectById(projectId);
+        if (project == null) {
+            throw new ApiException("Project not found");
+        }
+
+        if (project.getStudio() == null || !project.getStudio().getId().equals(studio.getId())) {
+            throw new ApiException("Project does not belong to your studio");
+        }
+
+        if (project.getStatus().equalsIgnoreCase("not started")){
+            project.setStatus("in Progress");
+        }else if (project.getStatus().equalsIgnoreCase("in Progress")){
+            project.setStatus("finished");
+        }else{
+            throw new ApiException("The project staus is already finished");
+        }
+
+        return project.getStatus();
+    }
+
+    private void checkStudioLeader(Integer leaderId, Project project) {
+        StudioMember studioMember=studioMemberRepository.findStudioMemberById(leaderId);
+        if (studioMember==null){
+            throw new ApiException("Studio member not found");
+        }
+        StudioMember leaderStudioMember=studioMemberRepository.getLeaderOfStudioByStudioId(studioMember.getStudio().getId());
+        if (!studioMember.getId().equals(leaderStudioMember.getId())){
+            throw new ApiException("You are not the leader of this studio");
+        }
+        if (!project.getStudio().getId().equals(leaderStudioMember.getStudio().getId())){
+            throw new ApiException("This project does not belong to your studio");
+        }
     }
 
     public List<Project> findProjectsByEarningEstimationGreaterThan(Double earningEstimation) {
@@ -175,7 +228,7 @@ public class ProjectService {
     }
 
     public List<Project> findProjectsByStatus(String status) {
-        if (!status.matches("^(inProgress|finished)$")) {
+        if (!status.matches("^(not started|in Progress|finished)$")) {
             throw new ApiException("Invalid status value");
         }
         return projectRepository.findProjectsByStatus(status);
@@ -186,38 +239,38 @@ public class ProjectService {
     }
 
     //Endpoints
-    public List<Project> getFundedProjectsByStudioId(Integer studioId) {
-        Studio studio = studioRepository.findStudioById(studioId);
+//    public List<Project> getFundedProjectsByStudioId(Integer studioId) {
+//        Studio studio = studioRepository.findStudioById(studioId);
+//
+//        if (studio == null) {
+//            throw new ApiException("Studio not found");
+//        }
+//
+//        List<Project> projects =
+//                projectRepository.findAllByStudioIdAndInvestorIsNotNull(studioId);
+//
+//        if (projects.isEmpty()) {
+//            throw new ApiException("No funded projects found for studio with id: "+studioId);
+//        }
+//
+//        return projects;
+//    }
 
-        if (studio == null) {
-            throw new ApiException("Studio not found");
-        }
-
-        List<Project> projects =
-                projectRepository.findAllByStudioIdAndInvestorIsNotNull(studioId);
-
-        if (projects.isEmpty()) {
-            throw new ApiException("No funded projects found for studio with id: "+studioId);
-        }
-
-        return projects;
-    }
-
-    public List<Project> getFundedProjectsByInvestorId(Integer investorId) {
-        Investor investor = investorRepository.findInvestorById(investorId);
-
-        if (investor == null) {
-            throw new ApiException("Investor not found");
-        }
-
-        List<Project> projects = projectRepository.findAllByInvestorId(investorId);
-
-        if (projects.isEmpty()) {
-            throw new ApiException("No funded projects found for investor with id: "+investorId);
-        }
-
-        return projects;
-    }
+//    public List<Project> getFundedProjectsByInvestorId(Integer investorId) {
+//        Investor investor = investorRepository.findInvestorById(investorId);
+//
+//        if (investor == null) {
+//            throw new ApiException("Investor not found");
+//        }
+//
+//        List<Project> projects = projectRepository.findAllByInvestorId(investorId);
+//
+//        if (projects.isEmpty()) {
+//            throw new ApiException("No funded projects found for investor with id: "+investorId);
+//        }
+//
+//        return projects;
+//    }
 
 
 

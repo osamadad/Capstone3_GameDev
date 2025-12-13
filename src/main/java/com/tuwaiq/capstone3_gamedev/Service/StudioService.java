@@ -31,11 +31,11 @@ public class StudioService {
 
     }
 
-    public List<Studio> get() {
+    public List<Studio> getStudio() {
         return studioRepository.findAll();
     }
 
-    public void add(Integer userId, Studio studio) {
+    public void addStudio(Integer userId, Studio studio) {
         User user= userRepository.findUserById(userId);
         if (user==null){
             throw new ApiException("User not found");
@@ -46,7 +46,7 @@ public class StudioService {
         studioMemberRepository.save(studioMember);
     }
 
-    public void update(Integer studioMemberId, Integer id, Studio studio) {
+    public void updateStudio(Integer studioMemberId, Integer id, Studio studio) {
         StudioMember studioMember = studioMemberRepository.findStudioMemberById(studioMemberId);
         checkLeader(studioMember);
 
@@ -65,7 +65,7 @@ public class StudioService {
         studioRepository.save(oldStudio);
     }
 
-    public void delete(Integer studioMemberId, Integer id) {
+    public void deleteStudio(Integer studioMemberId, Integer id) {
         StudioMember studioMember = studioMemberRepository.findStudioMemberById(studioMemberId);
         checkLeader(studioMember);
 

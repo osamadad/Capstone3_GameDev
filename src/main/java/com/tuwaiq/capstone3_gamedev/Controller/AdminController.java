@@ -39,9 +39,15 @@ public class AdminController {
         return ResponseEntity.status(200).body(new ApiResponse("Admin deleted successfully"));
     }
 
-    @PutMapping("/update/{investorId}")
+    @PutMapping("/approve/{investorId}")
     public ResponseEntity<?> approveInvestor(@PathVariable Integer investorId){
         adminService.approveInvestor(investorId);
+        return ResponseEntity.status(200).body(new ApiResponse("Investor approved successfully"));
+    }
+
+    @PutMapping("/reject/{investorId}")
+    public ResponseEntity<?> rejectInvestor(@PathVariable Integer investorId){
+        adminService.rejectInvestor(investorId);
         return ResponseEntity.status(200).body(new ApiResponse("Investor approved successfully"));
     }
 }

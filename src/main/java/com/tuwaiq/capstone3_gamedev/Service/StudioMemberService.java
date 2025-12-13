@@ -16,22 +16,22 @@ public class StudioMemberService {
     private final StudioMemberRepository studioMemberRepository;
     private final StudioRepository studioRepository;
 
-    public List<StudioMember> get() {
+    public List<StudioMember> getStudioMembers() {
         return studioMemberRepository.findAll();
     }
 
-    public void add(StudioMember studioMember) {
+    public void addStudioMember(StudioMember studioMember) {
         studioMemberRepository.save(studioMember);
     }
 
-    public void update(Integer id, StudioMember studioMember) {
+    public void updateStudioMember(Integer id, StudioMember studioMember) {
         StudioMember old = studioMemberRepository.findStudioMemberById(id);
         if (old == null) throw new ApiException("Studio member not found");
         old.setRole(studioMember.getRole());
         studioMemberRepository.save(old);
     }
 
-    public void delete(Integer id) {
+    public void deleteStudioMember(Integer id) {
         StudioMember old = studioMemberRepository.findStudioMemberById(id);
         if (old == null) throw new ApiException("Studio member not found");
 

@@ -15,26 +15,26 @@ public class StudioMemberController {
 
     private final StudioMemberService studioMemberService;
 
-    @GetMapping("get")
-    public ResponseEntity<?> get() {
-        return ResponseEntity.status(200).body(studioMemberService.get());
+    @GetMapping("/get")
+    public ResponseEntity<?> getStudioMembers() {
+        return ResponseEntity.status(200).body(studioMemberService.getStudioMembers());
     }
 
-    @PostMapping("add")
-    public ResponseEntity<?> add(@RequestBody @Valid StudioMember studioMember) {
-        studioMemberService.add(studioMember);
+    @PostMapping("/add")
+    public ResponseEntity<?> addStudioMember(@RequestBody @Valid StudioMember studioMember) {
+        studioMemberService.addStudioMember(studioMember);
         return ResponseEntity.status(200).body(new ApiResponse("studio member added"));
     }
 
-    @PutMapping("update/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody @Valid StudioMember studioMember) {
-        studioMemberService.update(id, studioMember);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateStudioMember(@PathVariable Integer id, @RequestBody @Valid StudioMember studioMember) {
+        studioMemberService.updateStudioMember(id, studioMember);
         return ResponseEntity.status(200).body(new ApiResponse("studio member updated"));
     }
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
-        studioMemberService.delete(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteStudioMember(@PathVariable Integer id) {
+        studioMemberService.deleteStudioMember(id);
         return ResponseEntity.status(200).body(new ApiResponse("studio member deleted"));
     }
 

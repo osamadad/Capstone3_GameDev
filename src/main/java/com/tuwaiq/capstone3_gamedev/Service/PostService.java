@@ -19,11 +19,11 @@ public class PostService {
     private final PostRepository postRepository;
     private final StudioMemberRepository studioMemberRepository;
 
-    public List<Post> get() {
+    public List<Post> getPosts() {
         return postRepository.findAll();
     }
 
-    public void add(Integer memberId, Post post) {
+    public void addPost(Integer memberId, Post post) {
         StudioMember member = studioMemberRepository.findStudioMemberById(memberId);
         if (member == null) {
             throw new ApiException("Member not found");
@@ -38,12 +38,12 @@ public class PostService {
             throw new ApiException("Member does not belong to any studio");
         }
 
-        post.setCreated_at(LocalDateTime.now());
+        post.setCreatedAt(LocalDateTime.now());
         post.setStudio(studio);
         postRepository.save(post);
     }
 
-    public void update(Integer memberId, Integer postId, Post post) {
+    public void updatePost(Integer memberId, Integer postId, Post post) {
         StudioMember member = studioMemberRepository.findStudioMemberById(memberId);
         if (member == null) {
             throw new ApiException("Member not found");
@@ -75,7 +75,7 @@ public class PostService {
         postRepository.save(oldPost);
     }
 
-    public void delete(Integer memberId, Integer postId) {
+    public void deletePost(Integer memberId, Integer postId) {
         StudioMember member = studioMemberRepository.findStudioMemberById(memberId);
         if (member == null) {
             throw new ApiException("Member not found");

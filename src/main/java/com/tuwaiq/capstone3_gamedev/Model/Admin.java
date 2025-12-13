@@ -32,5 +32,5 @@ public class Admin {
     @Column(columnDefinition = "varchar(35) not null")
     private String email;
     @Column(columnDefinition = "datetime")
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 }

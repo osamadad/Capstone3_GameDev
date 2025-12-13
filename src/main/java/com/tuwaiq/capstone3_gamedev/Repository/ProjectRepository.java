@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 public interface ProjectRepository extends JpaRepository<Project,Integer> {
     Project findProjectById(Integer id);
 
-    List<Project> findAllByStudioIdAndInvestorIsNotNull(Integer studioId);
+//    List<Project> findAllByStudioIdAndInvestorIsNotNull(Integer studioId);
 
-    List<Project> findAllByInvestorId(Integer investorId);
+//    List<Project> findAllByInvestorId(Integer investorId);
 
 
     List<Project> findProjectsByEarningEstimationGreaterThan(Double earningEstimation);

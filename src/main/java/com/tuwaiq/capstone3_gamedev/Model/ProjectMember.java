@@ -19,6 +19,7 @@ public class ProjectMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(columnDefinition = "varchar(15) not null")
     private String CompensationType;
     @Column(columnDefinition = "double")
     private Double CompensationAmount;
@@ -26,7 +27,7 @@ public class ProjectMember {
     private Double revenueSharePercentage;
     @Column(columnDefinition = "int not null")
     private Integer hoursPerWeek;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     @ManyToOne
     @JsonIgnore
     private User user;

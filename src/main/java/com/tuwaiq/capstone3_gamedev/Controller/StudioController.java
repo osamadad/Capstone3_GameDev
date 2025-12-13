@@ -15,29 +15,29 @@ public class StudioController {
 
     private final StudioService studioService;
 
-    @GetMapping("get")
-    public ResponseEntity<?> get() {
-        return ResponseEntity.status(200).body(studioService.get());
+    @GetMapping("/get")
+    public ResponseEntity<?> getStudio() {
+        return ResponseEntity.status(200).body(studioService.getStudio());
     }
 
-    @PostMapping("add/{userId}")
-    public ResponseEntity<?> add(@PathVariable Integer userId, @RequestBody @Valid Studio studio) {
-        studioService.add(userId, studio);
+    @PostMapping("/add/{userId}")
+    public ResponseEntity<?> getStudio(@PathVariable Integer userId, @RequestBody @Valid Studio studio) {
+        studioService.addStudio(userId, studio);
         return ResponseEntity.status(200).body(new ApiResponse("studio added"));
     }
 
-    @PutMapping("update/{studioMemberId}/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer studioMemberId, @PathVariable Integer id,@RequestBody @Valid Studio studio) {
-        studioService.update(studioMemberId, id, studio);
+    @PutMapping("/update/{studioMemberId}/{id}")
+    public ResponseEntity<?> getStudio(@PathVariable Integer studioMemberId, @PathVariable Integer id,@RequestBody @Valid Studio studio) {
+        studioService.updateStudio(studioMemberId, id, studio);
         return ResponseEntity.status(200).body(new ApiResponse("studio updated"));
     }
 
-    @DeleteMapping("delete/{studioMemberId}/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer studioMemberId, @PathVariable Integer id) {
-        studioService.delete(studioMemberId, id);
+    @DeleteMapping("/delete/{studioMemberId}/{id}")
+    public ResponseEntity<?> getStudio(@PathVariable Integer studioMemberId, @PathVariable Integer id) {
+        studioService.deleteStudio(studioMemberId, id);
         return ResponseEntity.status(200).body(new ApiResponse("studio deleted"));
     }
-    @GetMapping("get-most-project")
+    @GetMapping("/get-most-project")
     public ResponseEntity<?> getByMostProjects() {
         return ResponseEntity.status(200).body(studioService.getStudiosByMostProjects());
     }

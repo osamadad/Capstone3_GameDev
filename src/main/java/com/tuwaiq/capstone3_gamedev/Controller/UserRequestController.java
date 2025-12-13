@@ -16,42 +16,42 @@ public class UserRequestController {
     private final UserRequestService userRequestService;
 
     @GetMapping("/get")
-    public ResponseEntity<?> getAll() {
-        return ResponseEntity.status(200).body(userRequestService.getAll());
+    public ResponseEntity<?> getUserRequests() {
+        return ResponseEntity.status(200).body(userRequestService.getUserRequests());
     }
 
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody @Valid UserRequestDTO userRequestDTO) {
-        userRequestService.add(userRequestDTO);
+    public ResponseEntity<?> addUserRequest(@RequestBody @Valid UserRequestDTO userRequestDTO) {
+        userRequestService.addUserRequest(userRequestDTO);
         return ResponseEntity.status(200).body("User request added successfully");
     }
 
 
     @PutMapping("/update/{userId}/{requestId}")
-    public ResponseEntity<?> update(@PathVariable Integer userId,@PathVariable Integer requestId, @RequestBody @Valid UserRequestDTO userRequestDTO) {
-        userRequestService.update(userId,requestId, userRequestDTO);
+    public ResponseEntity<?> updateUserRequest(@PathVariable Integer userId,@PathVariable Integer requestId, @RequestBody @Valid UserRequestDTO userRequestDTO) {
+        userRequestService.updateUserRequest(userId,requestId, userRequestDTO);
         return ResponseEntity.status(200).body("User request updated successfully");
     }
 
 
     @DeleteMapping("/delete/{userId}/{requestId}")
-    public ResponseEntity<?> delete(@PathVariable Integer userId,@PathVariable Integer requestId) {
-        userRequestService.delete(userId,requestId);
+    public ResponseEntity<?> deleteUserRequest(@PathVariable Integer userId,@PathVariable Integer requestId) {
+        userRequestService.deleteUserRequest(userId,requestId);
         return ResponseEntity.status(200).body("User request deleted successfully");
     }
 
 
     //Endpoints
     @PutMapping("/accept/{leaderId}/{requestId}")
-    public ResponseEntity<?> accept(@PathVariable Integer leaderId,@PathVariable Integer requestId) {
+    public ResponseEntity<?> acceptRequest(@PathVariable Integer leaderId,@PathVariable Integer requestId) {
         userRequestService.acceptRequest(leaderId,requestId);
         return ResponseEntity.status(200).body("User request accepted");
     }
 
 
     @PutMapping("/reject/{leaderId}/{requestId}")
-    public ResponseEntity<?> reject(@PathVariable Integer leaderId,@PathVariable Integer requestId) {
+    public ResponseEntity<?> rejectRequest(@PathVariable Integer leaderId,@PathVariable Integer requestId) {
         userRequestService.rejectRequest(leaderId,requestId);
         return ResponseEntity.status(200).body("User request rejected");
     }

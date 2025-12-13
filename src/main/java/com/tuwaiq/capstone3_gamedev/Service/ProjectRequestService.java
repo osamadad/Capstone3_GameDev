@@ -22,7 +22,15 @@ public class ProjectRequestService {
     private final StudioMemberRepository studioMemberRepository;
 
 
-    public void addProjectRequest(ProjectRequestDTO projectRequestDTO){
+    public void addProjectRequest(Integer leaderId,ProjectRequestDTO projectRequestDTO){
+        StudioMember studioMember=studioMemberRepository.findStudioMemberById(leaderId);
+        if (studioMember==null){
+            throw new ApiException("Studio member not found");
+        }
+        StudioMember leaderStudioMember=studioMemberRepository.getLeaderOfStudioByStudioId(studioMember.getStudio().getId());
+        if (!studioMember.getId().equals(leaderStudioMember.getId())){
+            throw new ApiException("You are not the leader of this studio");
+        }
         User user = userRepository.findUserById(projectRequestDTO.getUserId());
         if (user==null){
             throw new ApiException("User not found");
@@ -33,6 +41,9 @@ public class ProjectRequestService {
         Project project=projectRepository.findProjectById(projectRequestDTO.getProjectId());
         if (project==null){
             throw new ApiException("Project not found");
+        }
+        if (!project.getStudio().getId().equals(leaderStudioMember.getStudio().getId())){
+            throw new ApiException("You can't create a request for a project that is not yours");
         }
         ProjectPosition projectPosition=projectPositionRepository.findProjectPositionById(projectRequestDTO.getProjectPositionId());
         if (projectPosition==null){
@@ -51,12 +62,16 @@ public class ProjectRequestService {
         if (oldRequest == null) {
             throw new ApiException("Request not found");
         }
-        User leader=userRepository.findUserById(leaderId);
-        if (leader==null){
-            throw new ApiException("Leader not found");
+        StudioMember studioMember=studioMemberRepository.findStudioMemberById(leaderId);
+        if (studioMember==null){
+            throw new ApiException("Studio member not found");
         }
-        if (!leader.getStudioMember().getRole().equalsIgnoreCase("leader")){
-            throw new ApiException("You are not the leader, you don't have permissions to accept request");
+        StudioMember leaderStudioMember=studioMemberRepository.getLeaderOfStudioByStudioId(studioMember.getStudio().getId());
+        if (!studioMember.getId().equals(leaderStudioMember.getId())){
+            throw new ApiException("You are not the leader of this studio");
+        }
+        if (!oldRequest.getProject().getStudio().getId().equals(leaderStudioMember.getStudio().getId())){
+            throw new ApiException("You can't delete a request for a project that is not yours");
         }
         projectRequestRepository.delete(oldRequest);
     }
@@ -89,7 +104,7 @@ public class ProjectRequestService {
             projectMember.setCompensationAmount(0.0);
         }
         projectMember.setHoursPerWeek(projectRequest.getProjectPosition().getHoursPerWeek());
-        projectMember.setCreated_at(LocalDateTime.now());
+        projectMember.setCreatedAt(LocalDateTime.now());
         projectMember.setUser(projectRequest.getUser());
         projectMember.setProject(projectRequest.getProject());
 
@@ -97,6 +112,7 @@ public class ProjectRequestService {
         studioMember.setRole("member");
         studioMember.setCreatedAt(LocalDateTime.now());
         studioMember.setUser(projectRequest.getUser());
+        studioMember.setStudio(projectRequest.getProject().getStudio());
 
         projectMemberRepository.save(projectMember);
         studioMemberRepository.save(studioMember);
@@ -104,7 +120,7 @@ public class ProjectRequestService {
         projectRequestRepository.save(projectRequest);
     }
 
-
+    //system endpoint
     public void rejectRequest(Integer userId,Integer projectId) {
         ProjectRequest projectRequest = projectRequestRepository.findProjectRequestById(projectId);
         if (projectRequest == null) {

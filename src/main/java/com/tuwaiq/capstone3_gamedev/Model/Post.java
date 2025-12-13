@@ -40,7 +40,7 @@ public class Post {
     private String media_url;
 
     @Column(columnDefinition = "timestamp default current_timestamp")
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JsonIgnore

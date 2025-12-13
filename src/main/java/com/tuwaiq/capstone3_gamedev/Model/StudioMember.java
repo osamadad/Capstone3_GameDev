@@ -23,6 +23,7 @@ public class StudioMember {
     private Integer id;
     @Column(columnDefinition = "varchar(20) not null")
     private String role;
+    @Column(columnDefinition = "datetime not null")
     private LocalDateTime createdAt;
     @OneToOne
     @MapsId
