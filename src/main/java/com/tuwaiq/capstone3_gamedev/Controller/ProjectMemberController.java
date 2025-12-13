@@ -1,6 +1,7 @@
 package com.tuwaiq.capstone3_gamedev.Controller;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiResponse;
+import com.tuwaiq.capstone3_gamedev.DTOIn.ProjectMemberDTO;
 import com.tuwaiq.capstone3_gamedev.Model.ProjectMember;
 import com.tuwaiq.capstone3_gamedev.Service.ProjectMemberService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ public class ProjectMemberController {
     private final ProjectMemberService projectMemberService;
 
     @PostMapping("/add/{leaderId}")
-    public ResponseEntity<?> addProjectMember(@PathVariable Integer leaderId, @RequestBody ProjectMember projectMember){
-        projectMemberService.addProjectMember(leaderId, projectMember);
+    public ResponseEntity<?> addProjectMember(@PathVariable Integer leaderId, @RequestBody ProjectMemberDTO projectMemberDTO){
+        projectMemberService.addProjectMember(leaderId, projectMemberDTO);
         return ResponseEntity.status(200).body(new ApiResponse("Project member added successfully"));
     }
 

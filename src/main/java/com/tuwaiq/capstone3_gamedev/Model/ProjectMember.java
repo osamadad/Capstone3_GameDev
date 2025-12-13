@@ -19,6 +19,7 @@ public class ProjectMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(columnDefinition = "varchar(15) not null")
     private String CompensationType;
     @Column(columnDefinition = "double")
     private Double CompensationAmount;
