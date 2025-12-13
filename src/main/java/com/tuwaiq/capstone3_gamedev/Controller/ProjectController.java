@@ -50,8 +50,13 @@ public class ProjectController {
         return ResponseEntity.status(200).body(new ApiResponse("Project assigned to platform successfully"));
     }
 
+    @PutMapping("/progress-project-status/{leaderId}/{projectId}")
+    public ResponseEntity<?> progressProjectStatus(@PathVariable Integer leaderId,@PathVariable Integer projectId){
+        return ResponseEntity.status(200).body(new ApiResponse("Project status have been move to: "+projectService.progressProjectStatus(leaderId,projectId)));
+    }
+
     @GetMapping("/get-earnings-greater-than-x/{earningEstimation}")
-    public ResponseEntity<?> geByEarning(@PathVariable Double earningEstimation) {
+    public ResponseEntity<?> getByEarning(@PathVariable Double earningEstimation) {
         return ResponseEntity.status(200).body(projectService.findProjectsByEarningEstimationGreaterThan(earningEstimation));
     }
 
@@ -61,7 +66,7 @@ public class ProjectController {
     }
 
     @GetMapping("/get-budget-greater-than-x/{budgetEstimation}")
-    public ResponseEntity<?> geByBudget(@PathVariable Double budgetEstimation) {
+    public ResponseEntity<?> getByBudget(@PathVariable Double budgetEstimation) {
         return ResponseEntity.status(200).body(projectService.findProjectsByBudgetEstimationGreaterThan(budgetEstimation));
     }
 

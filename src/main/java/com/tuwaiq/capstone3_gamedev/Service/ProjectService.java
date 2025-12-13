@@ -160,6 +160,41 @@ public class ProjectService {
         platformRepository.save(platform);
     }
 
+    public String  progressProjectStatus(Integer leaderId, Integer projectId){
+        StudioMember member = studioMemberRepository.findStudioMemberById(leaderId);
+        if (member == null) {
+            throw new ApiException("Member not found");
+        }
+
+        if (!"leader".equalsIgnoreCase(member.getRole())) {
+            throw new ApiException("Only leaders can delete projects");
+        }
+
+        Studio studio = member.getStudio();
+        if (studio == null) {
+            throw new ApiException("Member does not belong to any studio");
+        }
+
+        Project project = projectRepository.findProjectById(projectId);
+        if (project == null) {
+            throw new ApiException("Project not found");
+        }
+
+        if (project.getStudio() == null || !project.getStudio().getId().equals(studio.getId())) {
+            throw new ApiException("Project does not belong to your studio");
+        }
+
+        if (project.getStatus().equalsIgnoreCase("not started")){
+            project.setStatus("in Progress");
+        }else if (project.getStatus().equalsIgnoreCase("in Progress")){
+            project.setStatus("finished");
+        }else{
+            throw new ApiException("The project staus is already finished");
+        }
+
+        return project.getStatus();
+    }
+
     private void checkStudioLeader(Integer leaderId, Project project) {
         StudioMember studioMember=studioMemberRepository.findStudioMemberById(leaderId);
         if (studioMember==null){
