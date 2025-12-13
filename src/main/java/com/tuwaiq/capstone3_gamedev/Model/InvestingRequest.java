@@ -39,11 +39,9 @@ public class InvestingRequest {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JsonIgnore
     private Project project;
 
     @ManyToOne
-    @JsonIgnore
     private Investor investor;
 
 }

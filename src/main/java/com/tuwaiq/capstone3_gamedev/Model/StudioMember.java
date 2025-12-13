@@ -30,6 +30,5 @@ public class StudioMember {
     @JsonIgnore
     private User user;
     @ManyToOne
-    @JsonIgnore
     private Studio studio;
 }

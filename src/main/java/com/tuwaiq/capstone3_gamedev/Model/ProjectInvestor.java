@@ -25,9 +25,7 @@ public class ProjectInvestor {
     @Column(columnDefinition = "datetime not null")
     private LocalDateTime createdAt;
     @ManyToOne
-    @JsonIgnore
     private Project project;
     @ManyToOne
-    @JsonIgnore
     private Investor investor;
 }

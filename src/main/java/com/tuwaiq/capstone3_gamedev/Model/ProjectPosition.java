@@ -38,7 +38,9 @@ public class ProjectPosition {
     @JsonIgnore
     private Project project;
     @OneToMany(orphanRemoval = true, mappedBy = "projectPosition")
+    @JsonIgnore
     private Set<UserRequest> userRequests;
     @OneToMany(orphanRemoval = true, mappedBy = "projectPosition")
+    @JsonIgnore
     private Set<ProjectRequest> projectRequests;
 }

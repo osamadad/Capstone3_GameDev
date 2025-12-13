@@ -1,5 +1,6 @@
 package com.tuwaiq.capstone3_gamedev.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -48,9 +49,11 @@ public class Investor {
     private LocalDateTime createdAt;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "investor")
+    @JsonIgnore
     private Set<InvestingRequest> investingRequests;
 
     @OneToMany(mappedBy = "investor", orphanRemoval = true)
+    @JsonIgnore
     private Set<ProjectInvestor> projectInvestors;
 
 

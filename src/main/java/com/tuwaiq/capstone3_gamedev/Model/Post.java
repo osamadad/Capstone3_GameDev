@@ -43,7 +43,6 @@ public class Post {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JsonIgnore
     private Studio studio;
 
 }
