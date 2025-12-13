@@ -100,6 +100,7 @@ public class UserRequestService {
         studioMember.setRole("member");
         studioMember.setCreatedAt(LocalDateTime.now());
         studioMember.setUser(req.getUser());
+        studioMember.setStudio(req.getProject().getStudio());
 
         projectMemberRepository.save(projectMember);
         studioMemberRepository.save(studioMember);

@@ -112,6 +112,7 @@ public class ProjectRequestService {
         studioMember.setRole("member");
         studioMember.setCreatedAt(LocalDateTime.now());
         studioMember.setUser(projectRequest.getUser());
+        studioMember.setStudio(projectRequest.getProject().getStudio());
 
         projectMemberRepository.save(projectMember);
         studioMemberRepository.save(studioMember);
