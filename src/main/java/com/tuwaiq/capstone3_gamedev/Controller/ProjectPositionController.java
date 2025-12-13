@@ -39,4 +39,10 @@ public class ProjectPositionController {
         projectPositionService.deleteProjectPosition(leaderId,positionId);
         return ResponseEntity.status(200).body(new ApiResponse("Project position deleted successfully"));
     }
+
+    @GetMapping("/get-by-project-id/{projectId}")
+    public ResponseEntity<?> getProjectPositionsByProjectId(@PathVariable Integer projectId){
+        return ResponseEntity.status(200).body(projectPositionService.getProjectPositionsByProjectId(projectId));
+    }
+
 }

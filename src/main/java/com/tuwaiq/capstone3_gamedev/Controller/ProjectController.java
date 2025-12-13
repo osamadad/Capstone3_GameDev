@@ -85,6 +85,21 @@ public class ProjectController {
         return ResponseEntity.status(200).body(projectService.findProjectsByStatus(status));
     }
 
+    @GetMapping("/get-by-engine/{engine}")
+    public ResponseEntity<?> getProjectsByEngine(@PathVariable String engine){
+        return ResponseEntity.status(200).body(projectService.getProjectsByEngine(engine));
+    }
+
+    @GetMapping("/get-by-genre/{genre}")
+    public ResponseEntity<?> getProjectsByGenre(@PathVariable String genre){
+        return ResponseEntity.status(200).body(projectService.getProjectsByGenre(genre));
+    }
+
+    @GetMapping("/get-by-platform/{platform}")
+    public ResponseEntity<?> getProjectsByPlatform(@PathVariable String platform){
+        return ResponseEntity.status(200).body(projectService.getProjectsByPlatform(platform));
+    }
+
 //    @GetMapping("/studio/{studioId}")
 //    public ResponseEntity<?> getFundedProjectsByStudioId(@PathVariable Integer studioId) {
 //        return ResponseEntity.status(200).body(projectService.getFundedProjectsByStudioId(studioId));

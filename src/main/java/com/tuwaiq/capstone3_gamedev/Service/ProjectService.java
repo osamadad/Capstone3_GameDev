@@ -238,6 +238,30 @@ public class ProjectService {
         return projectRepository.findThisYearProjects();
     }
 
+    public List<Project> getProjectsByEngine(String engine){
+        List<Project> projects = projectRepository.findProjectByEngine(engine);
+        if (projects.isEmpty()){
+            throw new ApiException("No projects found with the specified engine");
+        }
+        return projects;
+    }
+
+    public List<Project> getProjectsByGenre(String genre){
+        List<Project> projects = projectRepository.findProjectByGenre(genre);
+        if (projects.isEmpty()){
+            throw new ApiException("No projects found for the specified genre");
+        }
+        return projects;
+    }
+
+    public List<Project> getProjectsByPlatform(String platform){
+        List<Project> projects = projectRepository.findProjectByPlatforms(platform);
+        if (projects.isEmpty()){
+            throw new ApiException("No projects found for the specified platform");
+        }
+        return projects;
+    }
+
     //Endpoints
 //    public List<Project> getFundedProjectsByStudioId(Integer studioId) {
 //        Studio studio = studioRepository.findStudioById(studioId);
