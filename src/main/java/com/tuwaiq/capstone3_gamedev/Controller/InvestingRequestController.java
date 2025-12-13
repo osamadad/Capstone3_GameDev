@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/investing-requests")
 @AllArgsConstructor
 public class InvestingRequestController {
+
     private final InvestingRequestService investingRequestService;
 
     @GetMapping("/get")

@@ -19,6 +19,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class InvestingRequestService {
+
     private final InvestingRequestRepository investingRequestRepository;
     private final InvestorRepository investorRepository;
     private final ProjectRepository projectRepository;

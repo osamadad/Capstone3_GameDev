@@ -16,24 +16,24 @@ import java.util.List;
 public class InvestorController {
     private final InvestorService investorService;
 
-    @GetMapping
+    @GetMapping("/get")
     public List<Investor> getAll() {
         return investorService.getAll();
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody @Valid Investor investor) {
         investorService.add(investor);
         return ResponseEntity.status(200).body(new ApiResponse("Investor added successfully "));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody @Valid Investor investor) {
         investorService.update(id, investor);
         return ResponseEntity.status(200).body(new ApiResponse("Investor updated successfully "));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         investorService.delete(id);
         return ResponseEntity.status(200).body(new ApiResponse("Investor deleted successfully "));
