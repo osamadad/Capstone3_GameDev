@@ -35,12 +35,15 @@ public class Studio {
     private LocalDateTime createdAt;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "studio")
+    @JsonIgnore
     private Set<StudioMember> members;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "studio")
+    @JsonIgnore
     private Set<Project> projects;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "studio")
+    @JsonIgnore
     private Set<Post> posts;
 
 }

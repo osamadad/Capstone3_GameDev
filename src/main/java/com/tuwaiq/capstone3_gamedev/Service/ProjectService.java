@@ -94,7 +94,6 @@ public class ProjectService {
         oldProject.setEarningEstimation(project.getEarningEstimation());
         oldProject.setStartDate(project.getStartDate());
         oldProject.setEndDate(project.getEndDate());
-        oldProject.setStatus(project.getStatus());
         oldProject.setEngine(project.getEngine());
         projectRepository.save(oldProject);
     }

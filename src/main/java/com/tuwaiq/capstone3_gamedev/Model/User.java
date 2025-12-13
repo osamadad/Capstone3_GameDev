@@ -60,12 +60,16 @@ public class User {
     @ManyToMany
     private Set<Skill> skills;
     @OneToMany(orphanRemoval = true, mappedBy = "user")
+    @JsonIgnore
     private Set<UserRequest> userRequests;
     @OneToMany(orphanRemoval = true, mappedBy = "user")
+    @JsonIgnore
     private Set<ProjectRequest> projectRequests;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    @OneToOne(orphanRemoval = true, mappedBy = "user")
     @PrimaryKeyJoinColumn
+    @JsonIgnore
     private StudioMember studioMember;
     @OneToMany(orphanRemoval = true, mappedBy = "user")
+    @JsonIgnore
     private Set<ProjectMember> projectMember;
 }

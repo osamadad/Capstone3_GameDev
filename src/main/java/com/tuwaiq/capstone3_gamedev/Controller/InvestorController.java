@@ -38,4 +38,9 @@ public class InvestorController {
         investorService.deleteInvestor(id);
         return ResponseEntity.status(200).body(new ApiResponse("Investor deleted successfully "));
     }
+
+    @GetMapping("/get-investor-with-most-funded-project")
+    public ResponseEntity<?> getInvestorWithMostFundedProjects(){
+        return ResponseEntity.status(200).body(investorService.getInvestorWithMostFundedProject());
+    }
 }

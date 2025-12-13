@@ -66,12 +66,13 @@ public class Project {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JsonIgnore
     private Studio studio;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<InvestingRequest> investingRequests;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    @JsonIgnore
     private Set<ProjectInvestor> projectInvestors;
 
     @ManyToMany(mappedBy = "projects")
@@ -82,8 +83,10 @@ public class Project {
     @JsonIgnore
     private Set<ProjectMember> projectMembers;
     @OneToMany(orphanRemoval = true, mappedBy = "project")
+    @JsonIgnore
     private Set<UserRequest> userRequests;
     @OneToMany(orphanRemoval = true, mappedBy = "project")
+    @JsonIgnore
     private Set<ProjectRequest> projectRequests;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<ProjectPosition> projectPositions;

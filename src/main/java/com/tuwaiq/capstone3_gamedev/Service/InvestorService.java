@@ -1,8 +1,10 @@
 package com.tuwaiq.capstone3_gamedev.Service;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
+import com.tuwaiq.capstone3_gamedev.DTOOut.InvestorDTO;
 import com.tuwaiq.capstone3_gamedev.Model.Investor;
 import com.tuwaiq.capstone3_gamedev.Repository.InvestorRepository;
+import com.tuwaiq.capstone3_gamedev.Repository.ProjectInvestorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +18,7 @@ import java.util.List;
 public class InvestorService {
 
     private final InvestorRepository investorRepository;
+    private final ProjectInvestorRepository projectInvestorRepository;
 
     public List<Investor> getInvestors() {
         return investorRepository.findAll();
@@ -67,4 +70,14 @@ public class InvestorService {
 
     }
 
+    public InvestorDTO getInvestorWithMostFundedProject(){
+        Investor investor=investorRepository.findInvestorWithMostFundedProjects();
+
+        if (investor==null){
+            throw new ApiException("Investor not found");
+        }
+
+        List<String> fundedProjects=projectInvestorRepository.getInvestedProjectNamesByInvestorId(investor.getId());
+        return new InvestorDTO(investor.getId(), investor.getFullName(), investor.getStatus(), investor.getMaxAvailableBudget(), fundedProjects);
+    }
 }

@@ -27,12 +27,9 @@ public class ProjectRequest {
     @Column(columnDefinition = "datetime")
     private LocalDateTime createdAt;
     @ManyToOne
-    @JsonIgnore
     private User user;
     @ManyToOne
-    @JsonIgnore
     private Project project;
     @ManyToOne
-    @JsonIgnore
     private ProjectPosition projectPosition;
 }
