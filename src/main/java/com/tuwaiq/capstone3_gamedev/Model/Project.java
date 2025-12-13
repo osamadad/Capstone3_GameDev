@@ -89,5 +89,6 @@ public class Project {
     @JsonIgnore
     private Set<ProjectRequest> projectRequests;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    @JsonIgnore
     private Set<ProjectPosition> projectPositions;
 }

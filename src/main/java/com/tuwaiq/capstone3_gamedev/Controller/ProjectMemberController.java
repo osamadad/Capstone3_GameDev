@@ -39,4 +39,11 @@ public class ProjectMemberController {
         projectMemberService.deleteProjectMember(leaderId,projectMemberId);
         return ResponseEntity.status(200).body(new ApiResponse("Project member deleted successfully"));
     }
+
+    @GetMapping("/get-project-member/{projectId}")
+    public ResponseEntity<?> getProjectMembersByProjectId(@PathVariable Integer projectId){
+        return ResponseEntity
+                .status(200)
+                .body(projectMemberService.getProjectMembersByProjectId(projectId));
+    }
 }

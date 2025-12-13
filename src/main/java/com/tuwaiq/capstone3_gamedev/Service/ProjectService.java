@@ -191,6 +191,8 @@ public class ProjectService {
             throw new ApiException("The project staus is already finished");
         }
 
+        projectRepository.save(project);
+
         return project.getStatus();
     }
 
