@@ -6,8 +6,10 @@ import com.tuwaiq.capstone3_gamedev.Model.*;
 import com.tuwaiq.capstone3_gamedev.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -51,6 +53,13 @@ public class ProjectRequestService {
         }
         ProjectRequest projectRequest=new ProjectRequest(null,projectRequestDTO.getMessage(),"Pending", LocalDateTime.now(),user,project,projectPosition);
         projectRequestRepository.save(projectRequest);
+
+        StudioMember leader = project.getStudio().getMembers().stream()
+                .filter(m -> "leader".equalsIgnoreCase(m.getRole()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Leader not found"));
+
+        sendRequestUserEmail(user.getEmail(), user.getUsername(), leader.getUser().getEmail(),project.getName());
     }
 
     public List<ProjectRequest> getProjectRequests(){
@@ -118,6 +127,12 @@ public class ProjectRequestService {
         studioMemberRepository.save(studioMember);
         projectRequest.setStatus("Accepted");
         projectRequestRepository.save(projectRequest);
+
+        StudioMember leaderStudioMember=studioMemberRepository.getLeaderOfStudioByStudioId(studioMember.getStudio().getId());
+
+
+        projectRequestAccepted(leaderStudioMember.getUser().getEmail(),user.getUsername(),projectRequest.getProject().getName());
+
     }
 
     //system endpoint
@@ -138,5 +153,59 @@ public class ProjectRequestService {
         }
         projectRequest.setStatus("Rejected");
         projectRequestRepository.save(projectRequest);
+
+        StudioMember leader = projectRequest.getProject().getStudio().getMembers().stream()
+                .filter(m -> "leader".equalsIgnoreCase(m.getRole()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Leader not found"));
+
+        projectRequestRejected(leader.getUser().getEmail(),user.getUsername(),projectRequest.getProject().getName());
+
     }
+    private void sendRequestUserEmail(String userEmail, String username,String leaderEmail,String projectName) {
+        String webhookUrl = "http://localhost:5678/webhook/send-request-user-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("email", userEmail);
+        payload.put("username", username);
+        payload.put("leaderEmail", leaderEmail);
+        payload.put("projectName", projectName);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+    }
+
+    private void projectRequestAccepted(String leaderEmail, String username,String projectName) {
+        String webhookUrl = "http://localhost:5678/webhook/send-accepted-project-request-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("leaderEmail", leaderEmail);
+        payload.put("username", username);
+        payload.put("projectName", projectName);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+    }
+
+    private void projectRequestRejected(String leaderEmail, String username,String projectName) {
+        String webhookUrl = "http://localhost:5678/webhook/send-rejected-project-request-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("leaderEmail", leaderEmail);
+        payload.put("username", username);
+        payload.put("projectName", projectName);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+    }
+
 }
