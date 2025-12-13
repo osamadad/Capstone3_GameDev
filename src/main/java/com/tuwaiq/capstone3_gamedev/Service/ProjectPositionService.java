@@ -13,6 +13,7 @@ import com.tuwaiq.capstone3_gamedev.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,7 +30,7 @@ public class ProjectPositionService {
             throw new ApiException("Project not found");
         }
         checkStudioLeader(leaderId, project);
-        ProjectPosition projectPosition=new ProjectPosition(null, projectPositionDTO.getAvailablePosition(), projectPositionDTO.getRequiredSkills(), projectPositionDTO.getDescription(), projectPositionDTO.getCompensationType(), projectPositionDTO.getCompensation(), projectPositionDTO.getHoursPerWeek(),project,null,null);
+        ProjectPosition projectPosition=new ProjectPosition(null, projectPositionDTO.getAvailablePosition(), projectPositionDTO.getRequiredSkills(), projectPositionDTO.getDescription(), projectPositionDTO.getCompensationType(), projectPositionDTO.getCompensation(), projectPositionDTO.getHoursPerWeek(), LocalDateTime.now(),project,null,null);
         projectPositionRepository.save(projectPosition);
     }
 

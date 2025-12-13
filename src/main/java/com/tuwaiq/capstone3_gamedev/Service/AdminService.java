@@ -19,7 +19,7 @@ public class AdminService {
     private final InvestorRepository investorRepository;
 
     public void addAdmin(Admin admin){
-        admin.setCreated_at(LocalDateTime.now());
+        admin.setCreatedAt(LocalDateTime.now());
         adminRepository.save(admin);
     }
 

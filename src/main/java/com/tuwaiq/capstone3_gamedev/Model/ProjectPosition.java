@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -31,6 +32,8 @@ public class ProjectPosition {
     private double compensation;
     @Column(columnDefinition = "int not null")
     private Integer hoursPerWeek;
+    @Column(columnDefinition = "datetime not null")
+    private LocalDateTime createdAt;
     @ManyToOne
     @JsonIgnore
     private Project project;

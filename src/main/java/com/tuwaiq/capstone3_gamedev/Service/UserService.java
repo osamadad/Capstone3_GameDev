@@ -19,7 +19,7 @@ public class UserService {
     private final SkillRepository skillRepository;
 
     public void addUser(User user){
-        user.setCreated_at(LocalDateTime.now());
+        user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
     }
 

@@ -56,7 +56,7 @@ public class User {
     @Column(columnDefinition = "varchar(155) not null")
     private String portfolioURL;
     @Column(columnDefinition = "datetime")
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     @ManyToMany
     private Set<Skill> skills;
     @OneToMany(orphanRemoval = true, mappedBy = "user")

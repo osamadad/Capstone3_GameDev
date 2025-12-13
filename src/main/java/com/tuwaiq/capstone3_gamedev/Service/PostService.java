@@ -38,7 +38,7 @@ public class PostService {
             throw new ApiException("Member does not belong to any studio");
         }
 
-        post.setCreated_at(LocalDateTime.now());
+        post.setCreatedAt(LocalDateTime.now());
         post.setStudio(studio);
         postRepository.save(post);
     }

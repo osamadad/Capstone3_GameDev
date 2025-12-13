@@ -23,7 +23,7 @@ public class ProjectInvestor {
     @Column(columnDefinition = "double not null")
     private Double equityShare;
     @Column(columnDefinition = "datetime not null")
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     @ManyToOne
     @JsonIgnore
     private Project project;

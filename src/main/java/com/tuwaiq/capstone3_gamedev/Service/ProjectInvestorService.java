@@ -16,7 +16,7 @@ public class ProjectInvestorService {
     private final ProjectInvestorRepository projectInvestorRepository;
 
     public void addProjectInvestor(ProjectInvestor projectInvestor){
-        projectInvestor.setCreated_at(LocalDateTime.now());
+        projectInvestor.setCreatedAt(LocalDateTime.now());
         projectInvestorRepository.save(projectInvestor);
     }
 

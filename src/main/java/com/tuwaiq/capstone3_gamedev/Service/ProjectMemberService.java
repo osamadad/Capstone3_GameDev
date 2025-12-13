@@ -22,7 +22,7 @@ public class ProjectMemberService {
     private final ProjectRepository projectRepository;
 
     public void addProjectMember(Integer leaderId, ProjectMember projectMember){
-        projectMember.setCreated_at(LocalDateTime.now());
+        projectMember.setCreatedAt(LocalDateTime.now());
         projectMemberRepository.save(projectMember);
     }
 

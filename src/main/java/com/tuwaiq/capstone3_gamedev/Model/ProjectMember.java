@@ -26,7 +26,7 @@ public class ProjectMember {
     private Double revenueSharePercentage;
     @Column(columnDefinition = "int not null")
     private Integer hoursPerWeek;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     @ManyToOne
     @JsonIgnore
     private User user;

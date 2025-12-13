@@ -104,7 +104,7 @@ public class ProjectRequestService {
             projectMember.setCompensationAmount(0.0);
         }
         projectMember.setHoursPerWeek(projectRequest.getProjectPosition().getHoursPerWeek());
-        projectMember.setCreated_at(LocalDateTime.now());
+        projectMember.setCreatedAt(LocalDateTime.now());
         projectMember.setUser(projectRequest.getUser());
         projectMember.setProject(projectRequest.getProject());
 
