@@ -44,4 +44,10 @@ public class AdminController {
         adminService.approveInvestor(investorId);
         return ResponseEntity.status(200).body(new ApiResponse("Investor approved successfully"));
     }
+
+    @PutMapping("/reject/{investorId}")
+    public ResponseEntity<?> rejectInvestor(@PathVariable Integer investorId){
+        adminService.rejectInvestor(investorId);
+        return ResponseEntity.status(200).body(new ApiResponse("Investor approved successfully"));
+    }
 }

@@ -58,4 +58,17 @@ public class AdminService {
         investor.setStatus("Accepted");
         investorRepository.save(investor);
     }
+
+    public void rejectInvestor(Integer investorId){
+        Investor investor=investorRepository.findInvestorById(investorId);
+        if (investor==null){
+            throw new ApiException("Investor not found");
+        }
+        if (investor.getStatus().equalsIgnoreCase("Accepted")){
+            throw new ApiException("Cannot reject aa accepted investor");
+        }
+
+        investor.setStatus("Rejected");
+        investorRepository.save(investor);
+    }
 }
