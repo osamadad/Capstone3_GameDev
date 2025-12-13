@@ -75,4 +75,12 @@ public class ProjectPositionService {
             throw new ApiException("This project does not belong to your studio");
         }
     }
+
+    public List<ProjectPosition> getProjectPositionsByProjectId(Integer projectId){
+        List<ProjectPosition> projectPositions=projectPositionRepository.findProjectPositionByProject_Id(projectId);
+        if (projectPositions.isEmpty()){
+            throw new ApiException("There are no available positions for this project");
+        }
+        return projectPositions;
+    }
 }
