@@ -55,11 +55,11 @@ public class InvestorService {
         investorRepository.delete(investor);
     }
 
-    private void sendWelcomeEmail(String investor, String fullName) {
+    private void sendWelcomeEmail(String investorEmail, String fullName) {
         String webhookUrl = "http://localhost:5678/webhook/investor-welcome-email";
 
         HashMap<String, Object> payload = new HashMap<>();
-        payload.put("investor", investor);
+        payload.put("investorEmail", investorEmail);
         payload.put("fullName", fullName);
 
         new RestTemplate().postForObject(

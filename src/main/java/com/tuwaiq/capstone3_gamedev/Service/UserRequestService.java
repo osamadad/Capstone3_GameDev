@@ -210,8 +210,6 @@ public class UserRequestService {
         );
     }
 
-
-
     public List<UserRequest> getRequestsByProjectId(Integer projectId) {
         if (!projectRepository.existsById(projectId)) {
             throw new ApiException("Project not found");
