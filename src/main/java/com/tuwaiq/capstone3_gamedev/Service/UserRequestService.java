@@ -21,11 +21,11 @@ public class UserRequestService {
     private final ProjectMemberRepository projectMemberRepository;
     private final StudioMemberRepository studioMemberRepository;
 
-    public List<UserRequest> getAll() {
+    public List<UserRequest> getUserRequests() {
         return userRequestRepository.findAll();
     }
 
-    public void add(UserRequestDTO requestDTO) {
+    public void addUserRequest(UserRequestDTO requestDTO) {
         User user = userRepository.findUserById(requestDTO.getUserId());
         if (user==null){
             throw new ApiException("User not found");
@@ -46,7 +46,7 @@ public class UserRequestService {
     }
 
 
-    public void update(Integer userId, Integer UserRequestId, UserRequestDTO UserRequestDTO) {
+    public void updateUserRequest(Integer userId, Integer UserRequestId, UserRequestDTO UserRequestDTO) {
         UserRequest old = userRequestRepository.findUserRequestById(UserRequestId);
         if (old == null) {
             throw new ApiException("User request not found");
@@ -59,7 +59,7 @@ public class UserRequestService {
     }
 
 
-    public void delete(Integer userId,Integer UserRequestId) {
+    public void deleteUserRequest(Integer userId,Integer UserRequestId) {
         UserRequest old = userRequestRepository.findUserRequestById(UserRequestId);
         if (old == null) {
             throw new ApiException("Request not found");
@@ -79,13 +79,7 @@ public class UserRequestService {
         if (req.getStatus().equalsIgnoreCase("Rejected")) {
             throw new ApiException("Cannot accept a rejected request");
         }
-        User user=userRepository.findUserById(leaderId);
-        if (user==null){
-            throw new ApiException("leader not found");
-        }
-        if (!user.getStudioMember().getRole().equalsIgnoreCase("leader")){
-            throw new ApiException("You are not the leader, you don't have permissions to accept request");
-        }
+        checkStudioLeader(leaderId,req.getProject());
         ProjectMember projectMember=new ProjectMember();
         String compensationType=req.getProjectPosition().getCompensationType();
         Double compensation=req.getProjectPosition().getCompensation();
@@ -119,18 +113,26 @@ public class UserRequestService {
         if (req == null) {
             throw new ApiException("Request not found");
         }
-        User user=userRepository.findUserById(leaderId);
-        if (user==null){
-            throw new ApiException("leader not found");
-        }
-        if (!user.getStudioMember().getRole().equalsIgnoreCase("leader")){
-            throw new ApiException("You are the leader, you don't have permissions to accept request");
-        }
+        checkStudioLeader(leaderId,req.getProject());
         if (req.getStatus().equalsIgnoreCase("Accepted")) {
             throw new ApiException("Cannot reject an accepted request");
         }
         req.setStatus("Rejected");
         userRequestRepository.save(req);
+    }
+
+    private void checkStudioLeader(Integer leaderId,Project project) {
+        StudioMember studioMember=studioMemberRepository.findStudioMemberById(leaderId);
+        if (studioMember==null){
+            throw new ApiException("Studio member not found");
+        }
+        StudioMember leaderStudioMember=studioMemberRepository.getLeaderOfStudioByStudioId(studioMember.getStudio().getId());
+        if (!studioMember.getId().equals(leaderStudioMember.getId())){
+            throw new ApiException("You are not the leader of this studio");
+        }
+        if (!project.getStudio().getId().equals(leaderStudioMember.getStudio().getId())){
+            throw new ApiException("This project does not belong to your studio");
+        }
     }
 
     public List<UserRequest> getUserRequestsByUserId(Integer userId) {

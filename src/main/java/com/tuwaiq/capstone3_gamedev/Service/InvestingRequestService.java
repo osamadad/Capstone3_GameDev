@@ -2,14 +2,8 @@ package com.tuwaiq.capstone3_gamedev.Service;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
 import com.tuwaiq.capstone3_gamedev.DTOIn.InvestingRequestDTO;
-import com.tuwaiq.capstone3_gamedev.Model.InvestingRequest;
-import com.tuwaiq.capstone3_gamedev.Model.Investor;
-import com.tuwaiq.capstone3_gamedev.Model.Project;
-import com.tuwaiq.capstone3_gamedev.Model.ProjectInvestor;
-import com.tuwaiq.capstone3_gamedev.Repository.InvestingRequestRepository;
-import com.tuwaiq.capstone3_gamedev.Repository.InvestorRepository;
-import com.tuwaiq.capstone3_gamedev.Repository.ProjectInvestorRepository;
-import com.tuwaiq.capstone3_gamedev.Repository.ProjectRepository;
+import com.tuwaiq.capstone3_gamedev.Model.*;
+import com.tuwaiq.capstone3_gamedev.Repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +18,14 @@ public class InvestingRequestService {
     private final InvestorRepository investorRepository;
     private final ProjectRepository projectRepository;
     private final ProjectInvestorRepository projectInvestorRepository;
+    private final StudioMemberRepository studioMemberRepository;
 
-    public List<InvestingRequest> getAll() {
+    public List<InvestingRequest> getInvestingRequests() {
         return investingRequestRepository.findAll();
     }
 
 
-    public void add(InvestingRequestDTO investingRequestDTO) {
+    public void addInvestingRequest(InvestingRequestDTO investingRequestDTO) {
         Investor investor = investorRepository.findInvestorById(investingRequestDTO.getInvestorId());
         if (investor==null){
             throw new ApiException("Investor not found");
@@ -51,7 +46,7 @@ public class InvestingRequestService {
     }
 
 
-    public void update(Integer investorId, Integer id, InvestingRequestDTO investingRequestDTO) {
+    public void updateInvestingRequest(Integer investorId, Integer id, InvestingRequestDTO investingRequestDTO) {
         InvestingRequest old = investingRequestRepository.findInvestingRequestById(id);
         if(old==null){
             throw new ApiException("Request not found");
@@ -65,7 +60,7 @@ public class InvestingRequestService {
     }
 
 
-    public void delete(Integer investorId, Integer id) {
+    public void deleteInvestingRequest(Integer investorId, Integer id) {
         InvestingRequest investingRequest = investingRequestRepository.findInvestingRequestById(id);
         if(investingRequest ==null){
             throw new ApiException("Request not found");
@@ -90,6 +85,7 @@ public class InvestingRequestService {
         if (project==null){
             throw new ApiException("Project not found");
         }
+        checkStudioLeader(leaderId, project);
         Investor investor=req.getInvestor();
         if (investor==null){
             throw new ApiException("Investor not found");
@@ -101,7 +97,7 @@ public class InvestingRequestService {
     }
 
 
-    public void rejectRequest(Integer id) {
+    public void rejectRequest(Integer leaderId, Integer id) {
         InvestingRequest req = investingRequestRepository.findInvestingRequestById(id);
         if(req==null){
             throw new ApiException("Request not found");
@@ -109,9 +105,23 @@ public class InvestingRequestService {
         if (req.getStatus().equalsIgnoreCase("Accepted")) {
             throw new ApiException("Cannot reject an accepted request");
         }
-
+        checkStudioLeader(leaderId, req.getProject());
         req.setStatus("Rejected");
         investingRequestRepository.save(req);
+    }
+
+    private void checkStudioLeader(Integer leaderId, Project project) {
+        StudioMember studioMember=studioMemberRepository.findStudioMemberById(leaderId);
+        if (studioMember==null){
+            throw new ApiException("Studio member not found");
+        }
+        StudioMember leaderStudioMember=studioMemberRepository.getLeaderOfStudioByStudioId(studioMember.getStudio().getId());
+        if (!studioMember.getId().equals(leaderStudioMember.getId())){
+            throw new ApiException("You are not the leader of this studio");
+        }
+        if (!project.getStudio().getId().equals(leaderStudioMember.getStudio().getId())){
+            throw new ApiException("This project does not belong to your studio");
+        }
     }
 
     public List<InvestingRequest> getRequestsByInvestorId(Integer investorId) {

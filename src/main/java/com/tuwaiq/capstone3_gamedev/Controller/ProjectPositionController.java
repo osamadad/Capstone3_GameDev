@@ -34,9 +34,9 @@ public class ProjectPositionController {
         return ResponseEntity.status(200).body(new ApiResponse("Project position updated successfully"));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteProjectPosition(@PathVariable Integer id){
-        projectPositionService.deleteProjectPosition(id);
+    @DeleteMapping("/delete//{leaderId}/{positionId}")
+    public ResponseEntity<?> deleteProjectPosition(@PathVariable Integer leaderId,@PathVariable Integer positionId){
+        projectPositionService.deleteProjectPosition(leaderId,positionId);
         return ResponseEntity.status(200).body(new ApiResponse("Project position deleted successfully"));
     }
 }

@@ -12,19 +12,20 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class InvestorService {
+
     private final InvestorRepository investorRepository;
 
-    public List<Investor> getAll() {
+    public List<Investor> getInvestors() {
         return investorRepository.findAll();
     }
 
-    public void add(Investor investor) {
+    public void addInvestor(Investor investor) {
         investor.setCreatedAt(LocalDateTime.now());
         investor.setStatus("Pending");
         investorRepository.save(investor);
     }
 
-    public void update(Integer id, Investor investor) {
+    public void updateInvestor(Integer id, Investor investor) {
         Investor old = investorRepository.findInvestorById(id);
 
         if(old==null){
@@ -39,7 +40,7 @@ public class InvestorService {
         investorRepository.save(old);
     }
 
-    public void delete(Integer id) {
+    public void deleteInvestor(Integer id) {
         Investor investor=investorRepository.findInvestorById(id);
         if (investor==null){
             throw new ApiException("Investor not found");

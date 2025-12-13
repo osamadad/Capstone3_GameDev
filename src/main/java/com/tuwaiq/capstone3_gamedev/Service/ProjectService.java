@@ -29,11 +29,11 @@ public class ProjectService {
     private final StudioRepository studioRepository;
     private final InvestorRepository investorRepository;
 
-    public List<Project> get() {
+    public List<Project> getProjects() {
         return projectRepository.findAll();
     }
 
-    public void add(Integer memberId, Project project) {
+    public void addProject(Integer memberId, Project project) {
         StudioMember member = studioMemberRepository.findStudioMemberById(memberId);
         if (member == null) {
             throw new ApiException("Member not found");
@@ -58,7 +58,7 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
-    public void update(Integer memberId, Integer projectId, Project project) {
+    public void updateProject(Integer memberId, Integer projectId, Project project) {
         StudioMember member = studioMemberRepository.findStudioMemberById(memberId);
         if (member == null) {
             throw new ApiException("Member not found");
@@ -99,7 +99,7 @@ public class ProjectService {
         projectRepository.save(oldProject);
     }
 
-    public void delete(Integer memberId, Integer projectId) {
+    public void deleteProject(Integer memberId, Integer projectId) {
         StudioMember member = studioMemberRepository.findStudioMemberById(memberId);
         if (member == null) {
             throw new ApiException("Member not found");
@@ -127,13 +127,15 @@ public class ProjectService {
     }
 
     //system endpoint
-    public void assignProjectToGenre(Integer projectId, Integer genreId) {
+    public void assignProjectToGenre(Integer leaderId, Integer projectId, Integer genreId) {
         Project project = projectRepository.findProjectById(projectId);
         Genre genre = genreRepository.findGenreById(genreId);
 
         if (genre == null || project == null) {
             throw new ApiException("Project or genre not found");
         }
+
+        checkStudioLeader(leaderId,project);
 
         project.getGenres().add(genre);
         genre.getProjects().add(project);
@@ -142,7 +144,7 @@ public class ProjectService {
     }
 
     //system endpoint
-    public void assignProjectToPlatform(Integer projectId, Integer platformId) {
+    public void assignProjectToPlatform(Integer leaderId, Integer projectId, Integer platformId) {
         Project project = projectRepository.findProjectById(projectId);
         Platform platform = platformRepository.findPlatformById(platformId);
 
@@ -150,10 +152,26 @@ public class ProjectService {
             throw new ApiException("Project or platform not found");
         }
 
+        checkStudioLeader(leaderId,project);
+
         project.getPlatforms().add(platform);
         platform.getProjects().add(project);
         projectRepository.save(project);
         platformRepository.save(platform);
+    }
+
+    private void checkStudioLeader(Integer leaderId, Project project) {
+        StudioMember studioMember=studioMemberRepository.findStudioMemberById(leaderId);
+        if (studioMember==null){
+            throw new ApiException("Studio member not found");
+        }
+        StudioMember leaderStudioMember=studioMemberRepository.getLeaderOfStudioByStudioId(studioMember.getStudio().getId());
+        if (!studioMember.getId().equals(leaderStudioMember.getId())){
+            throw new ApiException("You are not the leader of this studio");
+        }
+        if (!project.getStudio().getId().equals(leaderStudioMember.getStudio().getId())){
+            throw new ApiException("This project does not belong to your studio");
+        }
     }
 
     public List<Project> findProjectsByEarningEstimationGreaterThan(Double earningEstimation) {
@@ -175,7 +193,7 @@ public class ProjectService {
     }
 
     public List<Project> findProjectsByStatus(String status) {
-        if (!status.matches("^(inProgress|finished)$")) {
+        if (!status.matches("^(not started|in Progress|finished)$")) {
             throw new ApiException("Invalid status value");
         }
         return projectRepository.findProjectsByStatus(status);

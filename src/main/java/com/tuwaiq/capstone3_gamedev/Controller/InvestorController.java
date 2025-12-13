@@ -17,25 +17,25 @@ public class InvestorController {
     private final InvestorService investorService;
 
     @GetMapping("/get")
-    public List<Investor> getAll() {
-        return investorService.getAll();
+    public List<Investor> getInvestors() {
+        return investorService.getInvestors();
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody @Valid Investor investor) {
-        investorService.add(investor);
+    public ResponseEntity<?> addInvestor(@RequestBody @Valid Investor investor) {
+        investorService.addInvestor(investor);
         return ResponseEntity.status(200).body(new ApiResponse("Investor added successfully "));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody @Valid Investor investor) {
-        investorService.update(id, investor);
+    public ResponseEntity<?> updateInvestor(@PathVariable Integer id, @RequestBody @Valid Investor investor) {
+        investorService.updateInvestor(id, investor);
         return ResponseEntity.status(200).body(new ApiResponse("Investor updated successfully "));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
-        investorService.delete(id);
+    public ResponseEntity<?> deleteInvestor(@PathVariable Integer id) {
+        investorService.deleteInvestor(id);
         return ResponseEntity.status(200).body(new ApiResponse("Investor deleted successfully "));
     }
 }

@@ -16,37 +16,37 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping("/get")
-    public ResponseEntity<?> get() {
-        return ResponseEntity.status(200).body(projectService.get());
+    public ResponseEntity<?> getProjects() {
+        return ResponseEntity.status(200).body(projectService.getProjects());
     }
 
     @PostMapping("/add/{memberId}")
-    public ResponseEntity<?> add(@PathVariable Integer memberId,@RequestBody @Valid Project project) {
-        projectService.add(memberId, project);
+    public ResponseEntity<?> addProject(@PathVariable Integer memberId,@RequestBody @Valid Project project) {
+        projectService.addProject(memberId, project);
         return ResponseEntity.status(200).body(new ApiResponse("project added"));
     }
 
     @PutMapping("/update/{memberId}/{projectId}")
-    public ResponseEntity<?> update(@PathVariable Integer memberId,@PathVariable Integer projectId,@RequestBody @Valid Project project) {
-        projectService.update(memberId, projectId, project);
+    public ResponseEntity<?> updateProject(@PathVariable Integer memberId,@PathVariable Integer projectId,@RequestBody @Valid Project project) {
+        projectService.updateProject(memberId, projectId, project);
         return ResponseEntity.status(200).body(new ApiResponse("project updated"));
     }
 
     @DeleteMapping("/delete/{memberId}/{projectId}")
-    public ResponseEntity<?> delete(@PathVariable Integer memberId,@PathVariable Integer projectId) {
-        projectService.delete(memberId, projectId);
+    public ResponseEntity<?> deleteProject(@PathVariable Integer memberId,@PathVariable Integer projectId) {
+        projectService.deleteProject(memberId, projectId);
         return ResponseEntity.status(200).body(new ApiResponse("project deleted"));
     }
 
-    @PutMapping("/assign-genre/{projectId}/{genreId}")
-    public ResponseEntity<?> assignProjectToGenre(@PathVariable Integer projectId, @PathVariable Integer genreId){
-        projectService.assignProjectToGenre(projectId, genreId);
+    @PutMapping("/assign-genre/{leaderId}/{projectId}/{genreId}")
+    public ResponseEntity<?> assignProjectToGenre(@PathVariable Integer leaderId,@PathVariable Integer projectId, @PathVariable Integer genreId){
+        projectService.assignProjectToGenre(leaderId,projectId, genreId);
         return ResponseEntity.status(200).body(new ApiResponse("Project assigned to genre successfully"));
     }
 
-    @PutMapping("/assign-platform/{projectId}/{platformId}")
-    public ResponseEntity<?> assignProjectToPlatform(@PathVariable Integer projectId, @PathVariable Integer platformId){
-        projectService.assignProjectToPlatform(projectId, platformId);
+    @PutMapping("/assign-platform/{leaderId}/{projectId}/{platformId}")
+    public ResponseEntity<?> assignProjectToPlatform(@PathVariable Integer leaderId,@PathVariable Integer projectId, @PathVariable Integer platformId){
+        projectService.assignProjectToPlatform(leaderId, projectId, platformId);
         return ResponseEntity.status(200).body(new ApiResponse("Project assigned to platform successfully"));
     }
 
