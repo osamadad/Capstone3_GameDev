@@ -5,8 +5,10 @@ import com.tuwaiq.capstone3_gamedev.Model.Investor;
 import com.tuwaiq.capstone3_gamedev.Repository.InvestorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -23,6 +25,8 @@ public class InvestorService {
         investor.setCreatedAt(LocalDateTime.now());
         investor.setStatus("Pending");
         investorRepository.save(investor);
+
+        sendWelcomeEmail(investor.getEmail(),investor.getFullName());
     }
 
     public void updateInvestor(Integer id, Investor investor) {
@@ -46,6 +50,21 @@ public class InvestorService {
             throw new ApiException("Investor not found");
         }
         investorRepository.delete(investor);
+    }
+
+    private void sendWelcomeEmail(String investor, String fullName) {
+        String webhookUrl = "http://localhost:5678/webhook/investor-welcome-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("investor", investor);
+        payload.put("fullName", fullName);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+
     }
 
 }

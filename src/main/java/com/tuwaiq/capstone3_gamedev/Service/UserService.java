@@ -7,8 +7,10 @@ import com.tuwaiq.capstone3_gamedev.Repository.SkillRepository;
 import com.tuwaiq.capstone3_gamedev.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -21,6 +23,8 @@ public class UserService {
     public void addUser(User user){
         user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
+
+        sendAiWelcomeEmail(user.getEmail(),user.getUsername());
     }
 
     public List<User> getUsers(){
@@ -116,6 +120,20 @@ public class UserService {
         }
 
         return users;
+    }
+    private void sendAiWelcomeEmail(String userEmail, String username) {
+        String webhookUrl = "http://localhost:5678/webhook/generate-welcome-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("email", userEmail);
+        payload.put("username", username);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+
     }
 
 }

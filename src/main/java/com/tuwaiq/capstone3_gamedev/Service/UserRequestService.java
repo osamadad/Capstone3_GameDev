@@ -6,8 +6,10 @@ import com.tuwaiq.capstone3_gamedev.Model.*;
 import com.tuwaiq.capstone3_gamedev.Repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -43,6 +45,13 @@ public class UserRequestService {
         }
         UserRequest userRequest=new UserRequest(null,requestDTO.getMessage(),"Pending",LocalDateTime.now(),user,project,projectPosition);
         userRequestRepository.save(userRequest);
+
+        StudioMember leader = project.getStudio().getMembers().stream()
+                .filter(m -> "leader".equalsIgnoreCase(m.getRole()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Leader not found"));
+
+        sendRequestProjectEmail(user.getEmail(),user.getUsername(),leader.getUser().getEmail(),project.getName());
     }
 
 
@@ -106,6 +115,8 @@ public class UserRequestService {
         studioMemberRepository.save(studioMember);
         req.setStatus("Accepted");
         userRequestRepository.save(req);
+
+        userRequestAccepted(req.getUser().getEmail(),req.getUser().getUsername(),req.getProject().getName());
     }
 
 
@@ -120,6 +131,9 @@ public class UserRequestService {
         }
         req.setStatus("Rejected");
         userRequestRepository.save(req);
+
+        userRequestRejected(req.getUser().getEmail(),req.getUser().getUsername(),req.getProject().getName());
+
     }
 
     private void checkStudioLeader(Integer leaderId,Project project) {
@@ -150,6 +164,53 @@ public class UserRequestService {
 
         return requests;
     }
+    private void sendRequestProjectEmail(String userEmail, String username,String leaderEmail,String projectName) {
+        String webhookUrl = "http://localhost:5678/webhook/send-request-project-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("email", userEmail);
+        payload.put("username", username);
+        payload.put("leaderEmail", leaderEmail);
+        payload.put("projectName", projectName);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+    }
+
+    private void userRequestAccepted(String userEmail, String username,String projectName) {
+        String webhookUrl = "http://localhost:5678/webhook/send-accepted-request-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("email", userEmail);
+        payload.put("username", username);
+        payload.put("projectName", projectName);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+    }
+
+    private void userRequestRejected(String userEmail, String username,String projectName) {
+        String webhookUrl = "http://localhost:5678/webhook/send-rejected-request-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("email", userEmail);
+        payload.put("username", username);
+        payload.put("projectName", projectName);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+    }
+
+
 
 //    public List<UserRequest> getRequestsByStudioId(Integer studioId) {
 //        if (!studioRepository.existsById(studioId)) {
