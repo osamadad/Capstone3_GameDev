@@ -6,8 +6,10 @@ import com.tuwaiq.capstone3_gamedev.Model.*;
 import com.tuwaiq.capstone3_gamedev.Repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -43,6 +45,14 @@ public class InvestingRequestService {
         }
         InvestingRequest investingRequest= new InvestingRequest(null,investingRequestDTO.getInvestingOffer(), investingRequestDTO.getEquityShare(), "Pending",LocalDateTime.now(),project,investor);
         investingRequestRepository.save(investingRequest);
+
+        StudioMember leader = project.getStudio().getMembers().stream()
+                .filter(m -> "leader".equalsIgnoreCase(m.getRole()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Leader not found"));
+
+        sendInvestorRequestProjectEmail(investor.getEmail(),investor.getFullName(),leader.getUser().getEmail(),project.getName());
+
     }
 
 
@@ -94,6 +104,9 @@ public class InvestingRequestService {
         projectInvestorRepository.save(projectInvestor);
         req.setStatus("Accepted");
         investingRequestRepository.save(req);
+
+        investorRequestAccepted(req.getInvestor().getEmail(),req.getInvestor().getFullName(),req.getProject().getName());
+
     }
 
 
@@ -108,6 +121,9 @@ public class InvestingRequestService {
         checkStudioLeader(leaderId, req.getProject());
         req.setStatus("Rejected");
         investingRequestRepository.save(req);
+
+        investorRequestRejected(req.getInvestor().getEmail(),req.getInvestor().getFullName(),req.getProject().getName());
+
     }
 
     private void checkStudioLeader(Integer leaderId, Project project) {
@@ -152,6 +168,51 @@ public class InvestingRequestService {
         return requests;
     }
 
+    private void sendInvestorRequestProjectEmail(String investorEmail, String fullName,String leaderEmail,String projectName) {
+        String webhookUrl = "http://localhost:5678/webhook/send-Investor-request-project-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("investorEmail", investorEmail);
+        payload.put("fullName", fullName);
+        payload.put("leaderEmail", leaderEmail);
+        payload.put("projectName", projectName);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+    }
+
+    private void investorRequestAccepted(String investorEmail, String fullName,String projectName) {
+        String webhookUrl = "http://localhost:5678/webhook/send-accepted-request-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("investorEmail", investorEmail);
+        payload.put("fullName", fullName);
+        payload.put("projectName", projectName);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+    }
+
+    private void investorRequestRejected(String investorEmail, String fullName,String projectName) {
+        String webhookUrl = "http://localhost:5678/webhook/send-rejected-request-email";
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("investorEmail", investorEmail);
+        payload.put("fullName", fullName);
+        payload.put("projectName", projectName);
+
+        new RestTemplate().postForObject(
+                webhookUrl,
+                payload,
+                String.class
+        );
+    }
 
 
 

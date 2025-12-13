@@ -262,38 +262,38 @@ public class ProjectService {
     }
 
     //Endpoints
-//    public List<Project> getFundedProjectsByStudioId(Integer studioId) {
-//        Studio studio = studioRepository.findStudioById(studioId);
-//
-//        if (studio == null) {
-//            throw new ApiException("Studio not found");
-//        }
-//
-//        List<Project> projects =
-//                projectRepository.findAllByStudioIdAndInvestorIsNotNull(studioId);
-//
-//        if (projects.isEmpty()) {
-//            throw new ApiException("No funded projects found for studio with id: "+studioId);
-//        }
-//
-//        return projects;
-//    }
+    public List<Project> getFundedProjectsByStudioId(Integer studioId) {
+        Studio studio = studioRepository.findStudioById(studioId);
 
-//    public List<Project> getFundedProjectsByInvestorId(Integer investorId) {
-//        Investor investor = investorRepository.findInvestorById(investorId);
-//
-//        if (investor == null) {
-//            throw new ApiException("Investor not found");
-//        }
-//
-//        List<Project> projects = projectRepository.findAllByInvestorId(investorId);
-//
-//        if (projects.isEmpty()) {
-//            throw new ApiException("No funded projects found for investor with id: "+investorId);
-//        }
-//
-//        return projects;
-//    }
+        if (studio == null) {
+            throw new ApiException("Studio not found");
+        }
+
+        List<Project> projects =
+                projectRepository.findAllByStudioIdAndProjectInvestorsIsNotEmpty(studioId);
+
+        if (projects.isEmpty()) {
+            throw new ApiException("No funded projects found for studio with id: "+studioId);
+        }
+
+        return projects;
+    }
+
+    public List<Project> getFundedProjectsByInvestorId(Integer investorId) {
+        Investor investor = investorRepository.findInvestorById(investorId);
+
+        if (investor == null) {
+            throw new ApiException("Investor not found");
+        }
+
+        List<Project> projects = projectRepository.findAllByProjectInvestorsInvestorId(investorId);
+
+        if (projects.isEmpty()) {
+            throw new ApiException("No funded projects found for investor with id: "+investorId);
+        }
+
+        return projects;
+    }
 
 
 

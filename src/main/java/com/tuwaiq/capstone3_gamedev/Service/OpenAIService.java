@@ -52,7 +52,8 @@ public class OpenAIService {
         List<Project> projects = projectRepository.findProjectsByStudio_Id(studioId);
 
         int totalProjects = projects.size();
-        int fundedProjects = (int) projects.stream().filter(p -> p.getInvestor() != null).count();
+        int fundedProjects = (int) projects.stream().filter(p -> p.getProjectInvestors() != null && !p.getProjectInvestors().isEmpty()).count();
+
 
         double fundingRate = totalProjects == 0 ? 0 : (fundedProjects * 100.0) / totalProjects;
 
@@ -196,7 +197,7 @@ public class OpenAIService {
 
         int teamSize = studioMemberRepository.findAllByStudioId(studio.getId()).size();
 
-        boolean isFunded = project.getInvestor() != null;
+        boolean isFunded = project.getProjectInvestors() != null && !project.getProjectInvestors().isEmpty();
 
         String prompt = """
     You are an AI business and game market analyst.
