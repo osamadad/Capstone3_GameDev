@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -18,5 +19,5 @@ public class InvestorDTO {
     private String fullName;
     private String status;
     private Double maxAvailableBudget;
-    private Set<String> projectInvestedIn;
+    private List<String> projectInvestedIn;
 }

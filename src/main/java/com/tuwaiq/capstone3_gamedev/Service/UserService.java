@@ -1,6 +1,7 @@
 package com.tuwaiq.capstone3_gamedev.Service;
 
 import com.tuwaiq.capstone3_gamedev.Api.ApiException;
+import com.tuwaiq.capstone3_gamedev.DTOOut.UserDTO;
 import com.tuwaiq.capstone3_gamedev.Model.Skill;
 import com.tuwaiq.capstone3_gamedev.Model.User;
 import com.tuwaiq.capstone3_gamedev.Repository.SkillRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,54 +74,63 @@ public class UserService {
     }
 
     //Endpoints
-    public List<User> getUsersBySkill(String skill) {
+    private List<UserDTO> convertUserToUserDTO(List<User> users) {
+        List<UserDTO> userDTOS=new ArrayList<>();
+        for (User user: users){
+            List<String> skillsNames=skillRepository.getSkillsNameByUserId(user.getId());
+            UserDTO userDTO=new UserDTO(user.getId(),user.getUsername(),user.getBio(),user.getCountry(),user.getCity(),user.getYearOfExperience(),user.getRole(),user.getPortfolioURL(),skillsNames,user.getStudioMember().getStudio().getName(),user.getStudioMember().getRole());
+            userDTOS.add(userDTO);
+        }
+        return userDTOS;
+    }
+
+    public List<UserDTO> getUsersBySkill(String skill) {
         List<User> users = userRepository.findUsersBySkillName(skill);
 
         if (users.isEmpty()) {
             throw new ApiException("No users found with skill: " + skill);
         }
 
-        return users;
+        return convertUserToUserDTO(users);
     }
 
-    public List<User> getUsersByCity(String city) {
+    public List<UserDTO> getUsersByCity(String city) {
         List<User> users = userRepository.findByCityIgnoreCase(city);
 
         if (users.isEmpty()) {
             throw new ApiException("No users found in city: " + city);
         }
-
-        return users;
+        return convertUserToUserDTO(users);
     }
 
-    public List<User> getUsersByCountry(String country) {
+    public List<UserDTO> getUsersByCountry(String country) {
         List<User> users = userRepository.findByCountryIgnoreCase(country);
 
         if (users.isEmpty()) {
             throw new ApiException("No users found in country: " + country);
         }
 
-        return users;
+        return convertUserToUserDTO(users);
     }
 
-    public List<User> getUsersWithExperienceHigherThan(Integer years) {
+    public List<UserDTO> getUsersWithExperienceHigherThan(Integer years) {
         List<User> users = userRepository.findByYearOfExperienceGreaterThan(years);
 
         if (users.isEmpty()) {
             throw new ApiException("No users found with more than " + years + " years of experience");
         }
 
-        return users;
+        return convertUserToUserDTO(users);
     }
 
-    public List<User> getUsersByRole(String role) {
+    public List<UserDTO> getUsersByRole(String role) {
         List<User> users = userRepository.findByRoleIgnoreCase(role);
 
         if (users.isEmpty()) {
             throw new ApiException("No users found with role: " + role);
         }
 
-        return users;
+        return convertUserToUserDTO(users);
     }
     private void sendAiWelcomeEmail(String userEmail, String username) {
         String webhookUrl = "http://localhost:5678/webhook/generate-welcome-email";

@@ -22,5 +22,4 @@ public class UserDTO {
     private List<String> skills;
     private String studioName;
     private String studioRole;
-    private String projectName;
 }
