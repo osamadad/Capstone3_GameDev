@@ -212,19 +212,20 @@ public class UserRequestService {
 
 
 
-//    public List<UserRequest> getRequestsByStudioId(Integer studioId) {
-//        if (!studioRepository.existsById(studioId)) {
-//            throw new ApiException("Studio not found");
-//        }
-//
-//        List<UserRequest> requests = userRequestRepository.findAllByStudioId(studioId);
-//
-//        if (requests.isEmpty()) {
-//            throw new ApiException("No requests found for studio with id: "+ studioId);
-//        }
-//
-//        return requests;
-//    }
+    public List<UserRequest> getRequestsByProjectId(Integer projectId) {
+        if (!projectRepository.existsById(projectId)) {
+            throw new ApiException("Project not found");
+        }
+
+        List<UserRequest> requests = userRequestRepository.findAllByProjectId(projectId);
+
+        if (requests.isEmpty()) {
+            throw new ApiException("No requests found for project with id: " + projectId);
+        }
+
+        return requests;
+    }
+
 
 
 }

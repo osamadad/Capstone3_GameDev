@@ -61,10 +61,10 @@ public class UserRequestController {
         return ResponseEntity.status(200).body(userRequestService.getUserRequestsByUserId(userId));
     }
 
-//    @GetMapping("/studio/{studioId}")
-//    public ResponseEntity<?> getRequestsByStudioId(@PathVariable Integer studioId) {
-//        return ResponseEntity.status(200).body(userRequestService.getRequestsByStudioId(studioId));
-//    }
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<?> getRequestsByProjectId(@PathVariable Integer projectId) {
+        return ResponseEntity.status(200).body(userRequestService.getRequestsByProjectId(projectId));
+    }
 
 
 }
