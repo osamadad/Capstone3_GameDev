@@ -101,4 +101,12 @@ public class ProjectMemberService {
             throw new ApiException("This project does not belong to your studio");
         }
     }
+
+    public List<ProjectMember> getProjectMembersByProjectId(Integer projectId){
+        if (projectRepository.findProjectById(projectId) == null){
+            throw new ApiException("Project not found");
+        }
+
+        return projectMemberRepository.findProjectMemberByProject_Id(projectId);
+    }
 }

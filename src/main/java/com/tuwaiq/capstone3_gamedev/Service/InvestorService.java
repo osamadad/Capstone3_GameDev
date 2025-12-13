@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -70,14 +71,19 @@ public class InvestorService {
 
     }
 
-    public InvestorDTO getInvestorWithMostFundedProject(){
-        Investor investor=investorRepository.findInvestorWithMostFundedProjects();
+    public List<InvestorDTO> getInvestorWithMostFundedProject(){
+        List<Investor> investors =investorRepository.findInvestorWithMostFundedProjects();
 
-        if (investor==null){
+        if (investors ==null){
             throw new ApiException("Investor not found");
         }
+        List<InvestorDTO> investorDTOS=new ArrayList<>();
+        for (Investor investor: investors){
+            List<String> fundedProjects=projectInvestorRepository.getInvestedProjectNamesByInvestorId(investor.getId());
+            InvestorDTO investorDTO=new InvestorDTO(investor.getId(), investor.getFullName(), investor.getStatus(), investor.getMaxAvailableBudget(), fundedProjects);
+            investorDTOS.add(investorDTO);
+        }
 
-        List<String> fundedProjects=projectInvestorRepository.getInvestedProjectNamesByInvestorId(investor.getId());
-        return new InvestorDTO(investor.getId(), investor.getFullName(), investor.getStatus(), investor.getMaxAvailableBudget(), fundedProjects);
+        return investorDTOS;
     }
 }

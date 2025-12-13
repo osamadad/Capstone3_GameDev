@@ -78,7 +78,11 @@ public class UserService {
         List<UserDTO> userDTOS=new ArrayList<>();
         for (User user: users){
             List<String> skillsNames=skillRepository.getSkillsNameByUserId(user.getId());
-            UserDTO userDTO=new UserDTO(user.getId(),user.getUsername(),user.getBio(),user.getCountry(),user.getCity(),user.getYearOfExperience(),user.getRole(),user.getPortfolioURL(),skillsNames,user.getStudioMember().getStudio().getName(),user.getStudioMember().getRole());
+            UserDTO userDTO=new UserDTO(user.getId(),user.getUsername(),user.getBio(),user.getCountry(),user.getCity(),user.getYearOfExperience(),user.getRole(),user.getPortfolioURL(),skillsNames,null,null);
+            if (user.getStudioMember()!=null){
+                userDTO.setStudioName(user.getStudioMember().getStudio().getName());
+                userDTO.setStudioRole(user.getStudioMember().getStudio().getName());
+            }
             userDTOS.add(userDTO);
         }
         return userDTOS;
