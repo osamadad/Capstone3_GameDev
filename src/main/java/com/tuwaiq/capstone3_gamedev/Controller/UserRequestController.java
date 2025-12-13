@@ -1,5 +1,6 @@
 package com.tuwaiq.capstone3_gamedev.Controller;
 
+import com.tuwaiq.capstone3_gamedev.Api.ApiResponse;
 import com.tuwaiq.capstone3_gamedev.DTOIn.UserRequestDTO;
 import com.tuwaiq.capstone3_gamedev.Model.UserRequest;
 import com.tuwaiq.capstone3_gamedev.Service.UserRequestService;
@@ -24,21 +25,21 @@ public class UserRequestController {
     @PostMapping("/add")
     public ResponseEntity<?> addUserRequest(@RequestBody @Valid UserRequestDTO userRequestDTO) {
         userRequestService.addUserRequest(userRequestDTO);
-        return ResponseEntity.status(200).body("User request added successfully");
+        return ResponseEntity.status(200).body(new ApiResponse("User request added successfully"));
     }
 
 
     @PutMapping("/update/{userId}/{requestId}")
     public ResponseEntity<?> updateUserRequest(@PathVariable Integer userId,@PathVariable Integer requestId, @RequestBody @Valid UserRequestDTO userRequestDTO) {
         userRequestService.updateUserRequest(userId,requestId, userRequestDTO);
-        return ResponseEntity.status(200).body("User request updated successfully");
+        return ResponseEntity.status(200).body(new ApiResponse("User request updated successfully"));
     }
 
 
     @DeleteMapping("/delete/{userId}/{requestId}")
     public ResponseEntity<?> deleteUserRequest(@PathVariable Integer userId,@PathVariable Integer requestId) {
         userRequestService.deleteUserRequest(userId,requestId);
-        return ResponseEntity.status(200).body("User request deleted successfully");
+        return ResponseEntity.status(200).body(new ApiResponse("User request deleted successfully"));
     }
 
 
@@ -46,14 +47,14 @@ public class UserRequestController {
     @PutMapping("/accept/{leaderId}/{requestId}")
     public ResponseEntity<?> acceptRequest(@PathVariable Integer leaderId,@PathVariable Integer requestId) {
         userRequestService.acceptRequest(leaderId,requestId);
-        return ResponseEntity.status(200).body("User request accepted");
+        return ResponseEntity.status(200).body(new ApiResponse("User request accepted"));
     }
 
 
     @PutMapping("/reject/{leaderId}/{requestId}")
     public ResponseEntity<?> rejectRequest(@PathVariable Integer leaderId,@PathVariable Integer requestId) {
         userRequestService.rejectRequest(leaderId,requestId);
-        return ResponseEntity.status(200).body("User request rejected");
+        return ResponseEntity.status(200).body(new ApiResponse("User request rejected"));
     }
 
     @GetMapping("/user/{userId}")
