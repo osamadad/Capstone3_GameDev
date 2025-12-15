@@ -75,9 +75,34 @@ get games release this year
 
 get studios with most projects created sorted
 
+### n8n:
+
+send-request-project-email (Webhook6) – Sends a project invitation email to a user when a leader requests them to join a project
+
+generate-welcome-email (Webhook8) – Uses AI to generate a creative HTML welcome email and sends it to a newly registered user
+
+send-accepted-request-email (Webhook9) – Uses AI to generate and send an acceptance email when a user is approved to join a project
+
+send-rejected-request-email (Webhook10) – Uses AI to generate and send a polite rejection email when a user is declined from a project
+
+send-accepted-request-email-investor (Webhook) – Notifies an investor by email that they have been accepted into a project
+
+send-Investor-request-project-email (Webhook1) – Sends an email to the project leader when an investor requests to join a project
+
+send-rejected-request-email-investor (Webhook3) – Informs an investor via email that their investment request was rejected
+
+investor-welcome-email (Webhook2) – Sends a welcome email to a newly registered investor on the platform
+
+send-request-user-email (Webhook11) – Uses AI to generate and send a project invitation email from a leader to a specific user
+
+send-accepted-project-request-email (Webhook12) – Notifies the project leader that a user has accepted the project invitation
+
+send-rejected-project-request-email (Webhook13) – Notifies the project leader that a user has rejected the project invitation
+
+and service webhook for each one
+
 overall testing
 
-N8N AI web hooks for request sending and accept/receive and emails
 
 presentation (3 slides)
 
