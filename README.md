@@ -46,7 +46,7 @@ get investor with most funded projects
 
 approve reject project requests
 
-relationship
+relationship (fix old relationship)
 
 over all testing
 
@@ -77,7 +77,7 @@ get studios with most projects created sorted
 
 overall testing
 
-N8N AI and emails
+N8N AI web hooks for request sending and accept/receive and emails
 
 presentation (3 slides)
 
@@ -105,10 +105,6 @@ Get user request by studioId
 Get Investor request by investorId 
 
 Get Investor request by projectId
-
-get funded project by studio id
-
-get funded projects by investor id
 
 get user of experience high than x
 
