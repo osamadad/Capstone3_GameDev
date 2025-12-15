@@ -46,7 +46,7 @@ get investor with most funded projects
 
 approve reject project requests
 
-relationship (fix old relationship)
+relations (fix old relations)
 
 over all testing
 
@@ -103,6 +103,7 @@ and service webhook for each one
 
 overall testing
 
+relation
 
 presentation (3 slides)
 
@@ -144,5 +145,7 @@ get user based on country
 get user of experience high than x
 
 openAI
+
+relation
 
 presentation (3 slides)
